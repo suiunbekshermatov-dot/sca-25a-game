@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кураторский час — Группа SCA-25A</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            🎓 SCA-25A Кураторский час
+        </div>
+        <nav>
+            <button class="nav-btn active" onclick="switchTab('wheel')">🎰 Рандомайзер</button>
+            <button class="nav-btn" onclick="switchTab('gallery')">👥 Студенты (25)</button>
+            <button class="nav-btn" onclick="switchTab('quiz')">❓ Квиз</button>
+            <button class="nav-btn" onclick="switchTab('myth')">⚖️ Правда / Миф</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ВКЛАДКА 1: РУЛЕТКА -->
+        <div id="wheel" class="section active">
+            <h2>🎰 Рандомайзер студентов группы</h2>
+            <div class="wheel-container">
+                <div class="winner-display" id="winnerDisplay">
+                    <div class="winner-avatar" style="display:flex; align-items:center; justify-content:center; font-size:3rem;">🎯</div>
+                    <div class="winner-name">Нажмите «Крутить», чтобы выбрать студента</div>
+                    <div class="winner-group">Группа SCA-25A</div>
+                </div>
+                <button class="btn btn-accent" style="font-size: 1.2rem; padding: 1rem 3rem;" onclick="spinWheel()">Крутить рулетку!</button>
+            </div>
+        </div>
+
+        <!-- ВКЛАДКА 2: ГАЛЕРЕЯ -->
+        <div id="gallery" class="section">
+            <h2>👥 Список студентов группы SCA-25A</h2>
+            <div class="gallery-grid" id="galleryGrid"></div>
+        </div>
+
+        <!-- ВКЛАДКА 3: КВИЗ -->
+        <div id="quiz" class="section">
+            <h2>❓ Колледж-Квиз</h2>
+            <div class="quiz-card">
+                <div id="quizContainer"></div>
+            </div>
+        </div>
+
+        <!-- ВКЛАДКА 4: ПРАВДА ИЛИ МИФ -->
+        <div id="myth" class="section">
+            <h2>⚖️ Правда или Миф о колледже</h2>
+            <div class="myth-card">
+                <div class="myth-statement" id="mythStatement">Загрузка утверждения...</div>
+                <div class="myth-btns" id="mythButtons">
+                    <button class="myth-btn btn-true" onclick="checkMyth(true)">Правда ✅</button>
+                    <button class="myth-btn btn-false" onclick="checkMyth(false)">Миф ❌</button>
+                </div>
+                <div class="result-explanation" id="mythExplanation"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
