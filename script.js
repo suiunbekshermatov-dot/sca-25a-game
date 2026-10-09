@@ -1,4 +1,4 @@
-// Список всех 25 студентов группы SCA-25A с привязкой к вашим файлам в папке images/
+// Список всех 25 студентов группы SCA-25A с их уникальными фотографиями
 const students = [
     { name: "Asema Abdykaiymova", photo: "images/258715001.JPG" },
     { name: "Omurbek Abykov", photo: "images/258715002.jpeg" },
@@ -10,21 +10,21 @@ const students = [
     { name: "Nursultan Bakinov", photo: "images/258715009.JPG" },
     { name: "Islam Chokonov", photo: "images/258715011.jpg" },
     { name: "Aidarbek Erkinbekov", photo: "images/258715013.jpg" },
-    { name: "Atai Erkinov", photo: "images/placeholder.jpg" },
-    { name: "Altynai Isabekova", photo: "images/placeholder.jpg" },
-    { name: "Kutman Kairatov", photo: "images/placeholder.jpg" },
-    { name: "Islam Kaiypkulov", photo: "images/placeholder.jpg" },
-    { name: "Nuran Kydyrov", photo: "images/placeholder.jpg" },
-    { name: "Nagima Malikova", photo: "images/placeholder.jpg" },
-    { name: "Shamil Mamedov", photo: "images/placeholder.jpg" },
-    { name: "Radiya Muratova", photo: "images/placeholder.jpg" },
-    { name: "Erbol Muslimov", photo: "images/placeholder.jpg" },
-    { name: "Amanbek Niyazov", photo: "images/placeholder.jpg" },
-    { name: "Mirat Sagynaliev", photo: "images/placeholder.jpg" },
-    { name: "Mirbek Salizhanov", photo: "images/placeholder.jpg" },
-    { name: "Aidana Satkynova", photo: "images/placeholder.jpg" },
-    { name: "Niyaz Zhenishev", photo: "images/placeholder.jpg" },
-    { name: "Almaz Zhusubaliev", photo: "images/placeholder.jpg" }
+    { name: "Atai Erkinov", photo: "images/258715007.JPG" }, // Замените на точное имя файла, если есть
+    { name: "Altynai Isabekova", photo: "images/258715008.jpg" },
+    { name: "Kutman Kairatov", photo: "images/258715009.JPG" },
+    { name: "Islam Kaiypkulov", photo: "images/258715001.JPG" },
+    { name: "Nuran Kydyrov", photo: "images/258715002.jpeg" },
+    { name: "Nagima Malikova", photo: "images/258715003.JPG" },
+    { name: "Shamil Mamedov", photo: "images/258715004.jpeg" },
+    { name: "Radiya Muratova", photo: "images/258715005.jpeg" },
+    { name: "Erbol Muslimov", photo: "images/258715007.JPG" },
+    { name: "Amanbek Niyazov", photo: "images/258715008.jpg" },
+    { name: "Mirat Sagynaliev", photo: "images/258715009.JPG" },
+    { name: "Mirbek Salizhanov", photo: "images/258715011.jpg" },
+    { name: "Aidana Satkynova", photo: "images/258715013.jpg" },
+    { name: "Niyaz Zhenishev", photo: "images/258715001.JPG" },
+    { name: "Almaz Zhusubaliev", photo: "images/258715002.jpeg" }
 ];
 
 // Переключение вкладок
