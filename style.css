@@ -361,11 +361,18 @@ h2 {
  .feature-card { background: white; color: #111; border: 1px solid #aaa; }
 }
 
-/* Поле чудес — общеобразовательная игра */
-.field-card { max-width: 900px; margin: 0 auto; }
-.field-meta { display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; color:var(--text-muted); font-weight:700; margin-bottom:1.5rem; }
-.field-meta span:first-child { color:#c4b5fd; }
-.field-clue { font-size:1.15rem; line-height:1.6; max-width:700px; margin:0 auto 1.5rem; }
+/* Поле чудес — барабан в стиле телевизионной игры */
+.field-card { max-width: 900px; margin: 0 auto; overflow:hidden; }
+.drum-stage { position:relative; width:min(350px,78vw); aspect-ratio:1; margin:1rem auto .5rem; }
+.field-drum { position:absolute; inset:0; border:8px solid #f8d477; border-radius:50%; background:conic-gradient(#dc2626 0deg 45deg,#f59e0b 45deg 90deg,#2563eb 90deg 135deg,#16a34a 135deg 180deg,#7c3aed 180deg 225deg,#db2777 225deg 270deg,#0891b2 270deg 315deg,#ea580c 315deg 360deg); box-shadow:0 0 0 5px #78350f,0 12px 35px rgba(0,0,0,.45); transition:transform 4s cubic-bezier(.12,.72,.12,1); overflow:hidden; }
+.field-drum::before { content:""; position:absolute; inset:0; border-radius:50%; background:repeating-conic-gradient(from 0deg,transparent 0deg 43.8deg,rgba(255,255,255,.85) 44deg 45deg); }
+.field-drum::after { content:""; position:absolute; inset:12px; border:2px solid rgba(255,255,255,.55); border-radius:50%; }
+.drum-center { position:absolute; z-index:2; width:90px; height:90px; border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; justify-content:center; background:#fff7d6; color:#7f1d1d; border:5px solid #f8d477; box-shadow:0 3px 12px rgba(0,0,0,.4); font-size:1.15rem; font-weight:900; line-height:1.05; }
+.drum-center span { font-size:1.35rem; }
+.drum-pointer { position:absolute; z-index:5; top:-12px; left:50%; transform:translateX(-50%); color:#fff; font-size:2.5rem; line-height:1; text-shadow:0 3px 4px #000; }
+.field-prize { display:inline-block; min-width:240px; margin:.6rem auto 1rem; padding:.7rem 1.2rem; border:1px solid rgba(255,255,255,.2); border-radius:14px; background:rgba(15,23,42,.65); color:#fcd34d; font-size:1.15rem; font-weight:800; }
+.drum-spin-btn { display:block; margin:.2rem auto 1.3rem !important; font-size:1.15rem; padding:1rem 2rem; }
+.field-card .field-clue { margin-top:1rem; }
 .field-word { display:flex; justify-content:center; flex-wrap:wrap; gap:.45rem; min-height:4rem; margin:1.5rem 0; font-size:clamp(1.5rem,4vw,2.5rem); font-weight:800; }
 .field-letter { width:2.5rem; height:2.8rem; display:flex; justify-content:center; align-items:center; border-bottom:3px solid var(--accent); color:#fff; }
 .field-letter.space { border-bottom:0; width:.7rem; }
@@ -373,4 +380,4 @@ h2 {
 .field-letters .option-btn { text-align:center; min-width:2.8rem; padding:.7rem .8rem; }
 .field-letters .option-btn:disabled { opacity:.35; cursor:default; }
 .field-controls { display:flex; justify-content:center; flex-wrap:wrap; gap:.5rem; }
-@media(max-width:700px) { .field-meta { justify-content:center; } .field-letter { width:1.9rem; height:2.4rem; } .field-letters { gap:.3rem; } .field-letters .option-btn { min-width:2.2rem; padding:.55rem; } }
+@media(max-width:700px) { .field-meta { justify-content:center; } .field-letter { width:1.9rem; height:2.4rem; } .field-letters { gap:.3rem; } .field-letters .option-btn { min-width:2.2rem; padding:.55rem; } .drum-center {width:72px;height:72px;font-size:1rem;} .drum-center span{font-size:1.1rem;} }
