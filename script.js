@@ -697,3 +697,99 @@ teamScores.forEach((score, index) => {
     const node = document.getElementById("teamScore" + index);
     if (node) node.textContent = score;
 });
+
+
+// Математическая дуэль: два студента решают один пример у смарт-панели.
+const mathQuestionSets = {
+ beginner: [
+  {q:"18 + 27 = ?",a:"45"},{q:"64 − 29 = ?",a:"35"},{q:"7 × 8 = ?",a:"56"},{q:"144 ÷ 12 = ?",a:"12"},
+  {q:"15% от 200 = ?",a:"30"},{q:"3x = 21. x = ?",a:"7"},{q:"2² + 5 = ?",a:"9"},{q:"Периметр квадрата со стороной 6 см?",a:"24"},
+  {q:"0,5 + 0,25 = ?",a:"0.75"},{q:"x + 17 = 40. x = ?",a:"23"},{q:"9 × 9 = ?",a:"81"},{q:"1/2 от 86 = ?",a:"43"}
+ ],
+ hard: [
+  {q:"Решите: 3(2x − 4) = 30. x = ?",a:"7"},{q:"√196 = ?",a:"14"},{q:"2⁵ × 2² = ?",a:"128"},{q:"Если x² = 81 и x > 0, найдите x.",a:"9"},
+  {q:"Решите: 5x + 7 = 3x + 25. x = ?",a:"9"},{q:"25% от 360 = ?",a:"90"},{q:"Упростите: (3/4) ÷ (1/2). Ответ дробью или десятичным числом.",a:"1.5"},
+  {q:"Площадь круга радиуса 3: используйте π ≈ 3,14. Ответ округлите до сотых.",a:"28.26"},{q:"Решите систему: x + y = 10, x − y = 2. Найдите x.",a:"6"},
+  {q:"Найдите 15² − 9².",a:"144"},{q:"Если 2x + 3 = 17, чему равно 3x?",a:"21"},{q:"Среднее арифметическое чисел 8, 12, 16 и 24?",a:"15"}
+ ]
+};
+let mathRoundScores=[0,0], mathCurrentQuestion=null, mathAnswered={left:false,right:false}, mathQuestionNumber=0, mathDuelActive=false, mathPendingPoints=[0,0], mathDuelUsed={beginner:[],hard:[]};
+function normalizeMathAnswer(value) { return String(value).trim().replace(/,/g,".").replace(/\s+/g,"").replace(/−/g,"-"); }
+function selectedMathTeam(side) { return Number(document.getElementById(side==="left"?"mathTeamLeft":"mathTeamRight").value); }
+function updateMathDuelDisplay() {
+ const left=selectedMathTeam("left"), right=selectedMathTeam("right");
+ document.getElementById("mathLeftTeamLabel").textContent=["🔵 Команда 1","🟣 Команда 2","🟢 Команда 3","🟠 Команда 4"][left];
+ document.getElementById("mathRightTeamLabel").textContent=["🔵 Команда 1","🟣 Команда 2","🟢 Команда 3","🟠 Команда 4"][right];
+ document.getElementById("mathLeftPlayerTitle").textContent="👤 Студент: "+["Команда 1","Команда 2","Команда 3","Команда 4"][left];
+ document.getElementById("mathRightPlayerTitle").textContent="👤 Студент: "+["Команда 1","Команда 2","Команда 3","Команда 4"][right];
+ document.getElementById("mathLeftRoundScore").textContent=mathRoundScores[0];
+ document.getElementById("mathRightRoundScore").textContent=mathRoundScores[1];
+ const offset=Math.max(-42,Math.min(42,(mathRoundScores[0]-mathRoundScores[1])*8));
+ document.getElementById("tugRope").style.left=(50+offset)+"%";
+}
+function startMathDuel() {
+ mathRoundScores=[0,0]; mathPendingPoints=[0,0]; mathQuestionNumber=0; mathDuelActive=true;
+ mathDuelUsed[document.getElementById("mathDifficulty").value]=[];
+ document.getElementById("startMathDuelBtn").textContent="Начать заново";
+ updateMathDuelDisplay(); nextMathQuestion();
+}
+function nextMathQuestion() {
+ if(!mathDuelActive) {
+  document.getElementById("mathFeedback").textContent="Сначала нажмите «Начать дуэль».";
+  return;
+ }
+ const level=document.getElementById("mathDifficulty").value, bank=mathQuestionSets[level];
+ let available=bank.map((_,i)=>i).filter(i=>!mathDuelUsed[level].includes(i));
+ if(!available.length) { finishMathDuel(); return; }
+ const index=available[Math.floor(Math.random()*available.length)];
+ mathDuelUsed[level].push(index); mathCurrentQuestion=bank[index]; mathAnswered={left:false,right:false}; mathQuestionNumber++;
+ document.getElementById("mathRoundLabel").textContent="Раунд "+mathQuestionNumber+" · "+(level==="beginner"?"Для новичков":"Сложный уровень");
+ document.getElementById("mathQuestion").textContent=mathCurrentQuestion.q;
+ document.getElementById("mathFeedback").textContent="Оба участника решают один и тот же пример. Ответьте до перехода к следующему.";
+ ["left","right"].forEach(side=>{
+  document.getElementById(side==="left"?"math"+ "LeftAnswer":"mathRightAnswer").value="";
+  document.getElementById(side==="left"?"mathLeftAnswer":"mathRightAnswer").disabled=false;
+  document.getElementById(side==="left"?"mathLeftStatus":"mathRightStatus").textContent="Готов к решению";
+  document.querySelector(".player-"+side+" .btn").disabled=false;
+ });
+}
+function submitMathAnswer(side) {
+ if(!mathDuelActive||!mathCurrentQuestion||mathAnswered[side]) return;
+ const input=document.getElementById(side==="left"?"mathLeftAnswer":"mathRightAnswer");
+ const status=document.getElementById(side==="left"?"mathLeftStatus":"mathRightStatus");
+ const correct=normalizeMathAnswer(input.value)===normalizeMathAnswer(mathCurrentQuestion.a);
+ mathAnswered[side]=true;
+ document.querySelector(".player-"+side+" .btn").disabled=true;
+ input.disabled=true;
+ if(correct) { mathRoundScores[side==="left"?0:1]++; mathPendingPoints[side==="left"?0:1]++; status.textContent="✅ Правильно! +1"; }
+ else status.textContent="❌ Ответ: "+mathCurrentQuestion.a;
+ updateMathDuelDisplay();
+ if(mathAnswered.left&&mathAnswered.right) document.getElementById("mathFeedback").textContent="Раунд завершён. Нажмите «Следующий пример» для продолжения.";
+}
+function finishMathDuel() {
+ mathDuelActive=false;
+ const left=selectedMathTeam("left"), right=selectedMathTeam("right");
+ teamScores[left]+=mathPendingPoints[0];
+ if(right!==left) teamScores[right]+=mathPendingPoints[1];
+ else teamScores[left]+=mathPendingPoints[1];
+ saveTeamScores();
+ let result=mathRoundScores[0]===mathRoundScores[1]?"Ничья!":(mathRoundScores[0]>mathRoundScores[1]?"Победила левая сторона!":"Победила правая сторона!");
+ document.getElementById("mathQuestion").textContent="Дуэль завершена";
+ document.getElementById("mathFeedback").textContent=result+" Результаты добавлены в общий рейтинг.";
+ document.getElementById("startMathDuelBtn").textContent="Играть ещё раз";
+}
+function resetMathDuel() {
+ mathDuelActive=false; mathCurrentQuestion=null; mathRoundScores=[0,0]; mathPendingPoints=[0,0]; mathQuestionNumber=0; mathAnswered={left:false,right:false};
+ document.getElementById("mathQuestion").textContent="Нажмите «Начать дуэль», чтобы получить пример.";
+ document.getElementById("mathRoundLabel").textContent="Раунд 0";
+ document.getElementById("mathFeedback").textContent="Раунд сброшен. Нажмите «Начать дуэль», чтобы начать заново.";
+ ["mathLeftAnswer","mathRightAnswer"].forEach(id=>{document.getElementById(id).value="";document.getElementById(id).disabled=false;});
+ ["mathLeftStatus","mathRightStatus"].forEach(id=>document.getElementById(id).textContent="Готов к решению");
+ document.querySelectorAll(".math-player .btn").forEach(button=>button.disabled=false);
+ updateMathDuelDisplay();
+}
+document.getElementById("mathTeamLeft").addEventListener("change",updateMathDuelDisplay);
+document.getElementById("mathTeamRight").addEventListener("change",updateMathDuelDisplay);
+document.getElementById("mathLeftAnswer").addEventListener("keydown",event=>{if(event.key==="Enter")submitMathAnswer("left");});
+document.getElementById("mathRightAnswer").addEventListener("keydown",event=>{if(event.key==="Enter")submitMathAnswer("right");});
+updateMathDuelDisplay();
