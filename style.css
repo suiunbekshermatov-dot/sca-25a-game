@@ -360,3 +360,17 @@ h2 {
  #final { display: block !important; }
  .feature-card { background: white; color: #111; border: 1px solid #aaa; }
 }
+
+/* Поле чудес — общеобразовательная игра */
+.field-card { max-width: 900px; margin: 0 auto; }
+.field-meta { display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; color:var(--text-muted); font-weight:700; margin-bottom:1.5rem; }
+.field-meta span:first-child { color:#c4b5fd; }
+.field-clue { font-size:1.15rem; line-height:1.6; max-width:700px; margin:0 auto 1.5rem; }
+.field-word { display:flex; justify-content:center; flex-wrap:wrap; gap:.45rem; min-height:4rem; margin:1.5rem 0; font-size:clamp(1.5rem,4vw,2.5rem); font-weight:800; }
+.field-letter { width:2.5rem; height:2.8rem; display:flex; justify-content:center; align-items:center; border-bottom:3px solid var(--accent); color:#fff; }
+.field-letter.space { border-bottom:0; width:.7rem; }
+.field-letters { display:flex; justify-content:center; flex-wrap:wrap; gap:.45rem; margin:1.5rem 0; }
+.field-letters .option-btn { text-align:center; min-width:2.8rem; padding:.7rem .8rem; }
+.field-letters .option-btn:disabled { opacity:.35; cursor:default; }
+.field-controls { display:flex; justify-content:center; flex-wrap:wrap; gap:.5rem; }
+@media(max-width:700px) { .field-meta { justify-content:center; } .field-letter { width:1.9rem; height:2.4rem; } .field-letters { gap:.3rem; } .field-letters .option-btn { min-width:2.2rem; padding:.55rem; } }
