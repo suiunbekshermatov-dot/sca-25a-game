@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кураторский час — Группа SCA-25A</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20261012-games">
+    <link rel="stylesheet" href="style.css?v=20261012-mathduel">
 </head>
 <body>
 
@@ -27,6 +27,7 @@
             <button class="nav-btn" onclick="switchTab('jeopardy')">🏆 Jeopardy</button>
             <button class="nav-btn" onclick="switchTab('escape')">🔐 Escape Room</button>
             <button class="nav-btn" onclick="switchTab('ranking')">📊 Общий рейтинг</button>
+            <button class="nav-btn" onclick="switchTab('mathduel')">➗ Математическая дуэль</button>
         </nav>
     </header>
 
@@ -192,6 +193,32 @@
             </div>
         </div>
 
+
+        <!-- МАТЕМАТИЧЕСКАЯ ДУЭЛЬ -->
+        <div id="mathduel" class="section">
+            <h2>➗ Математическая дуэль — перетяни канат!</h2>
+            <p class="section-intro">Два студента выходят к смарт-панели. Решайте один пример одновременно: правильный ответ приносит балл вашей команде и двигает канат в её сторону.</p>
+            <div class="feature-card mathduel-card">
+                <div class="mathduel-settings">
+                    <div><label for="mathDifficulty">Уровень сложности</label><select id="mathDifficulty" class="game-select"><option value="beginner">🟢 Для новичков</option><option value="hard">🔴 Сложный</option></select></div>
+                    <div><label for="mathTeamLeft">Левая сторона</label><select id="mathTeamLeft" class="game-select"><option value="0">🔵 Команда 1</option><option value="1">🟣 Команда 2</option><option value="2">🟢 Команда 3</option><option value="3">🟠 Команда 4</option></select></div>
+                    <div><label for="mathTeamRight">Правая сторона</label><select id="mathTeamRight" class="game-select"><option value="1">🟣 Команда 2</option><option value="0">🔵 Команда 1</option><option value="2">🟢 Команда 3</option><option value="3">🟠 Команда 4</option></select></div>
+                </div>
+                <div class="tug-stage">
+                    <div class="tug-team tug-left"><span id="mathLeftTeamLabel">🔵 Команда 1</span><strong id="mathLeftRoundScore">0</strong></div>
+                    <div class="tug-track"><div class="tug-midline"></div><div id="tugRope" class="tug-rope"><span class="tug-flag">⚑</span></div></div>
+                    <div class="tug-team tug-right"><span id="mathRightTeamLabel">🟣 Команда 2</span><strong id="mathRightRoundScore">0</strong></div>
+                </div>
+                <div class="math-question-panel"><div class="math-round-label" id="mathRoundLabel">Раунд 0</div><div id="mathQuestion" class="math-question">Нажмите «Начать дуэль», чтобы получить пример.</div><div class="math-feedback" id="mathFeedback" aria-live="polite">Побеждает команда, набравшая больше правильных ответов.</div></div>
+                <div class="math-players">
+                    <div class="math-player player-left"><h3 id="mathLeftPlayerTitle">🔵 Студент команды 1</h3><label for="mathLeftAnswer">Ответ студента слева</label><input id="mathLeftAnswer" class="game-input math-answer" type="text" autocomplete="off" placeholder="Введите ответ"><button class="btn btn-accent" onclick="submitMathAnswer('left')">Ответить</button><div id="mathLeftStatus" class="player-status">Готов к решению</div></div>
+                    <div class="math-player player-right"><h3 id="mathRightPlayerTitle">🟣 Студент команды 2</h3><label for="mathRightAnswer">Ответ студента справа</label><input id="mathRightAnswer" class="game-input math-answer" type="text" autocomplete="off" placeholder="Введите ответ"><button class="btn btn-accent" onclick="submitMathAnswer('right')">Ответить</button><div id="mathRightStatus" class="player-status">Готов к решению</div></div>
+                </div>
+                <div class="game-actions"><button id="startMathDuelBtn" class="btn btn-accent" onclick="startMathDuel()">▶ Начать дуэль</button><button class="btn" onclick="nextMathQuestion()">Следующий пример →</button><button class="btn" onclick="resetMathDuel()">Сбросить раунд</button></div>
+                <p class="small-note">Один правильный ответ = 1 балл. Если оба студента отвечают правильно, балл получают обе команды. Итоговые баллы добавляются в общий рейтинг при завершении дуэли.</p>
+            </div>
+        </div>
+
         <!-- ФИНАЛ -->
         <div id="final" class="section">
             <h2>🥇 Финал кураторского часа</h2>
@@ -206,6 +233,6 @@
         </div>
     </main>
 
-    <script src="script.js?v=20261012-games"></script>
+    <script src="script.js?v=20261012-mathduel"></script>
 </body>
 </html>
