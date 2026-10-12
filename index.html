@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кураторский час — Группа SCA-25A</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20261012">
+    <link rel="stylesheet" href="style.css?v=20261012-field">
 </head>
 <body>
 
@@ -15,6 +15,7 @@
         </div>
         <nav>
             <button class="nav-btn active" onclick="switchTab('wheel')">🎰 Рандомайзер</button>
+            <button class="nav-btn" onclick="switchTab(\'field\')">🎡 Поле чудес</button>
             <button class="nav-btn" onclick="switchTab('gallery')">👥 Студенты (24)</button>
             <button class="nav-btn" onclick="switchTab('quiz')">❓ Квиз</button>
             <button class="nav-btn" onclick="switchTab('myth')">⚖️ Правда / Миф</button>
@@ -37,6 +38,26 @@
                     <div class="winner-group">Группа SCA-25A</div>
                 </div>
                 <button class="btn btn-accent" style="font-size: 1.2rem; padding: 1rem 3rem;" onclick="spinWheel()">Крутить рулетку!</button>
+            </div>
+        </div>
+
+
+        <!-- ПОЛЕ ЧУДЕС -->
+        <div id="field" class="section">
+            <h2>🎡 Поле чудес — эрудиция</h2>
+            <p class="section-intro">Угадайте слово по теме и подсказке. За правильные буквы получайте очки!</p>
+            <div class="feature-card field-card">
+                <div class="field-meta"><span id="fieldCategory">Категория</span><span id="fieldRound">Раунд 0</span><span>Очки: <strong id="fieldScore">0</strong></span></div>
+                <div id="fieldClue" class="field-clue">Нажмите «Начать игру»</div>
+                <div id="fieldWord" class="field-word">_ _ _ _ _</div>
+                <p id="fieldFeedback" class="result-explanation" aria-live="polite"></p>
+                <div id="fieldLetters" class="field-letters"></div>
+                <div class="field-controls">
+                    <button class="btn btn-accent" onclick="startFieldGame()">Начать игру</button>
+                    <button class="btn" onclick="revealFieldAnswer()">Открыть ответ</button>
+                    <button class="btn" onclick="nextFieldRound()">Следующее слово →</button>
+                </div>
+                <p class="small-note">За каждую найденную букву — 10 очков за каждое её появление. За разгаданное слово — бонус 30 очков.</p>
             </div>
         </div>
 
@@ -135,6 +156,6 @@
         </div>
     </main>
 
-    <script src="script.js?v=20261012"></script>
+    <script src="script.js?v=20261012-field"></script>
 </body>
 </html>
