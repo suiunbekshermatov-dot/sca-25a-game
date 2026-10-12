@@ -377,22 +377,68 @@ const fieldQuestions = [
  { category:"Информатика", clue:"Основной язык разметки веб-страниц.", answer:"HTML" }
 ];
 const fieldAlphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".split("");
+const fieldPrizes = [
+ {label:"10 очков", points:10},{label:"20 очков",points:20},{label:"БАНКРОТ",bankrupt:true},
+ {label:"50 очков",points:50},{label:"ПРИЗ +50",gift:true},{label:"15 очков",points:15},
+ {label:"ПЕРЕХОД ХОДА",skip:true},{label:"30 очков",points:30}
+];
 let fieldDeck = [], fieldCurrent = null, fieldGuessed = new Set(), fieldScore = 0, fieldRound = 0, fieldSolved = false;
+let fieldDrumRotation = 0, fieldDrumBusy = false, fieldCurrentPrize = null;
 function startFieldGame() {
  fieldDeck = fieldQuestions.map((_, i) => i).sort(() => Math.random() - 0.5);
- fieldScore = 0; fieldRound = 0;
+ fieldScore = 0; fieldRound = 0; fieldDrumRotation = 0;
  document.getElementById("fieldScore").textContent = fieldScore;
+ document.getElementById("fieldPrize").textContent = "Барабан готов к вращению!";
+ document.getElementById("fieldDrum").style.transform = "rotate(0deg)";
  nextFieldRound();
 }
 function nextFieldRound() {
  if (!fieldDeck.length) fieldDeck = fieldQuestions.map((_, i) => i).sort(() => Math.random() - 0.5);
  fieldCurrent = fieldQuestions[fieldDeck.pop()];
- fieldGuessed = new Set(); fieldSolved = false; fieldRound++;
+ fieldGuessed = new Set(); fieldSolved = false; fieldCurrentPrize = null; fieldRound++;
  document.getElementById("fieldCategory").textContent = fieldCurrent.category;
  document.getElementById("fieldRound").textContent = "Раунд " + fieldRound;
  document.getElementById("fieldClue").textContent = fieldCurrent.clue;
- document.getElementById("fieldFeedback").textContent = "Выберите букву!";
+ document.getElementById("fieldFeedback").textContent = "Сначала крутите барабан!";
+ document.getElementById("fieldPrize").textContent = "Ваш приз?";
+ document.getElementById("spinFieldDrumBtn").disabled = false;
  renderFieldWord(); renderFieldLetters();
+}
+function spinFieldDrum() {
+ if (!fieldCurrent || fieldSolved || fieldDrumBusy || fieldCurrentPrize) {
+  if (!fieldCurrent) document.getElementById("fieldFeedback").textContent = "Сначала нажмите «Начать игру».";
+  return;
+ }
+ fieldDrumBusy = true;
+ document.getElementById("spinFieldDrumBtn").disabled = true;
+ const index = Math.floor(Math.random() * fieldPrizes.length);
+ fieldCurrentPrize = fieldPrizes[index];
+ const segment = 360 / fieldPrizes.length;
+ const target = 360 * (5 + Math.floor(Math.random() * 3)) + (360 - (index * segment + segment / 2));
+ fieldDrumRotation += target;
+ document.getElementById("fieldDrum").style.transform = "rotate(" + fieldDrumRotation + "deg)";
+ document.getElementById("fieldPrize").textContent = "Барабан вращается…";
+ renderFieldLetters();
+ window.setTimeout(() => {
+  fieldDrumBusy = false;
+  const prize = fieldCurrentPrize;
+  document.getElementById("fieldPrize").textContent = "🎯 " + prize.label;
+  if (prize.bankrupt) {
+   fieldScore = 0;
+   document.getElementById("fieldFeedback").textContent = "💥 Банкрот! Очки обнуляются. Выберите букву для продолжения.";
+  } else if (prize.gift) {
+   fieldScore += 50;
+   document.getElementById("fieldFeedback").textContent = "🎁 Приз! +50 бонусных очков. Теперь выберите букву.";
+  } else if (prize.skip) {
+   fieldCurrentPrize = null;
+   document.getElementById("fieldFeedback").textContent = "⏭️ Переход хода! Крутите барабан снова.";
+   document.getElementById("spinFieldDrumBtn").disabled = false;
+  } else {
+   document.getElementById("fieldFeedback").textContent = "Выигрыш: " + prize.points + " очков за каждое найденное в слове вхождение буквы.";
+  }
+  document.getElementById("fieldScore").textContent = fieldScore;
+  renderFieldLetters();
+ }, 4100);
 }
 function renderFieldWord() {
  if (!fieldCurrent) return;
@@ -402,30 +448,36 @@ function renderFieldWord() {
  }).join("");
 }
 function renderFieldLetters() {
+ const canGuess = !!fieldCurrentPrize && !fieldDrumBusy && !fieldSolved;
  document.getElementById("fieldLetters").innerHTML = fieldAlphabet.map(ch =>
-  '<button class="option-btn" ' + (fieldGuessed.has(ch) || fieldSolved ? 'disabled' : '') + ' onclick="guessFieldLetter(\'' + ch + '\')">' + ch + '</button>'
+  '<button class="option-btn" ' + (fieldGuessed.has(ch) || !canGuess ? 'disabled' : '') + ' onclick="guessFieldLetter(&quot;' + ch + '&quot;)">' + ch + '</button>'
  ).join("");
 }
 function guessFieldLetter(letter) {
- if (!fieldCurrent || fieldSolved || fieldGuessed.has(letter)) return;
+ if (!fieldCurrent || fieldSolved || fieldGuessed.has(letter) || !fieldCurrentPrize || fieldDrumBusy) return;
  fieldGuessed.add(letter);
  const hits = Array.from(fieldCurrent.answer).filter(ch => ch === letter).length;
+ const prize = fieldCurrentPrize;
  if (hits) {
-  fieldScore += hits * 10;
-  document.getElementById("fieldFeedback").textContent = "✅ Есть такая буква! +" + (hits * 10) + " очков.";
+  const points = prize.points || 0;
+  fieldScore += hits * points;
+  document.getElementById("fieldFeedback").textContent = "✅ Есть такая буква! +" + (hits * points) + " очков.";
  } else {
-  document.getElementById("fieldFeedback").textContent = "❌ Такой буквы нет. Попробуйте другую.";
+  document.getElementById("fieldFeedback").textContent = "❌ Такой буквы нет. Следующий ход — снова барабан.";
  }
  const letters = Array.from(fieldCurrent.answer).filter(ch => ch !== " ");
  if (letters.every(ch => fieldGuessed.has(ch))) {
   fieldSolved = true; fieldScore += 30;
   document.getElementById("fieldFeedback").textContent = "🎉 Верно! Слово: " + fieldCurrent.answer + ". Бонус +30 очков!";
  }
+ fieldCurrentPrize = null;
  document.getElementById("fieldScore").textContent = fieldScore;
+ document.getElementById("spinFieldDrumBtn").disabled = fieldSolved;
  renderFieldWord(); renderFieldLetters();
 }
 function revealFieldAnswer() {
  if (!fieldCurrent || fieldSolved) return;
- fieldSolved = true; renderFieldWord(); renderFieldLetters();
+ fieldSolved = true; fieldCurrentPrize = null; renderFieldWord(); renderFieldLetters();
+ document.getElementById("spinFieldDrumBtn").disabled = true;
  document.getElementById("fieldFeedback").textContent = "Ответ: " + fieldCurrent.answer + ". Нажмите «Следующее слово», чтобы продолжить.";
 }
