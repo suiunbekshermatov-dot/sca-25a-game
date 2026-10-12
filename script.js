@@ -1,4 +1,4 @@
-// Список всех 25 студентов группы SCA-25A с их уникальными фотографиями
+// Список 24 студентов группы SCA-25A
 const students = [
     { name: "Asema Abdykaiymova", photo: "images/1.JPG" },
     { name: "Omurbek Abykov", photo: "images/2.JPG" },
@@ -33,7 +33,6 @@ function switchTab(tabId) {
     document.getElementById(tabId).classList.add('active');
     const activeButton = Array.from(document.querySelectorAll('.nav-btn')).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + tabId + "'"));
     if (activeButton) activeButton.classList.add('active');
-    if (tabId === 'guess' && !guessCurrent) nextGuess();
 }
 
 // Рандомайзер / Рулетка
@@ -205,35 +204,79 @@ function spinChallenge() {
     document.getElementById("challengeEmoji").textContent = challenges[index].emoji;
     document.getElementById("challengeText").textContent = challenges[index].text;
 }
-let guessCurrent = null;
-let guessPoints = 0;
-function nextGuess() {
-    if (students.length < 2) return;
-    const shuffled = [...students].sort(() => Math.random() - 0.5);
-    guessCurrent = shuffled[0];
-    document.getElementById("guessPhoto").src = guessCurrent.photo;
-    document.getElementById("guessPhoto").alt = "Угадайте, кто на фото";
-    document.getElementById("guessFeedback").textContent = "";
-    const options = [guessCurrent, ...shuffled.slice(1, 4)].sort(() => Math.random() - 0.5);
-    document.getElementById("guessOptions").innerHTML = options.map(student =>
-        '<button class="option-btn" data-name="' + student.name.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;") + '">' + student.name + '</button>'
-    ).join("");
-    document.querySelectorAll("#guessOptions button").forEach(button => {
-        button.addEventListener("click", () => answerGuess(button.dataset.name));
-    });
+// Секретные миссии — без фотографий, с командными и весёлыми заданиями
+const missions = [
+    { emoji: "🤝", category: "Командная работа", text: "За 30 секунд придумайте девиз SCA-25A и произнесите его всей группой." },
+    { emoji: "🧠", category: "Смекалка", text: "Назовите по очереди 5 способов использовать обычную скрепку — кроме её прямого назначения." },
+    { emoji: "💻", category: "IT-челлендж", text: "Объясните слово «алгоритм» так, чтобы понял ученик начальной школы." },
+    { emoji: "🎭", category: "Пантомима", text: "Без слов изобразите компьютер, который завис. Группа должна угадать." },
+    { emoji: "⚡", category: "Блиц", text: "За 15 секунд назовите 7 профессий, связанных с IT." },
+    { emoji: "🌟", category: "Позитив", text: "Назовите три сильные стороны вашей группы и приведите один пример." },
+    { emoji: "🔐", category: "Кибербезопасность", text: "Придумайте пример надёжной парольной фразы и объясните, почему она хорошая. Не используйте личные пароли." },
+    { emoji: "🎬", category: "Креатив", text: "Придумайте название фильма о жизни SCA-25A и коротко представьте его." },
+    { emoji: "🧩", category: "Логика", text: "Составьте пошаговый алгоритм приготовления чая так, чтобы робот смог его выполнить." },
+    { emoji: "🎤", category: "Самопрезентация", text: "За 20 секунд расскажите, какой навык вы хотите освоить до конца учебного года." },
+    { emoji: "🕵️", category: "Детектив", text: "Выберите ведущего: он показывает эмоцию без слов, а команда угадывает её за 3 попытки." },
+    { emoji: "🚀", category: "Будущее", text: "Представьте, что прошло 5 лет. Каждый участник команды называет одну свою будущую победу." },
+    { emoji: "🎨", category: "Дизайн", text: "За 30 секунд придумайте логотип группы жестами или быстрым наброском на доске." },
+    { emoji: "🔄", category: "Объясни иначе", text: "Объясните понятие «интернет» без слов «сеть», «сайт» и «компьютер»." },
+    { emoji: "👏", category: "Поддержка", text: "Поблагодарите одногруппника за конкретное хорошее качество или поступок." },
+    { emoji: "🏗️", category: "Инженеры", text: "За минуту спроектируйте башню из доступных в аудитории безопасных предметов. Ничего не ломайте." },
+    { emoji: "📱", category: "Цифровая жизнь", text: "Назовите 3 привычки, которые помогают не отвлекаться на телефон во время учёбы." },
+    { emoji: "🎯", category: "Общая цель", text: "Вся команда за 20 секунд должна договориться об одной цели на этот семестр." },
+    { emoji: "🗣️", category: "Словесная игра", text: "Каждый участник добавляет по одному слову, чтобы вместе сочинить историю про программиста." },
+    { emoji: "🏆", category: "Финальный вызов", text: "За 30 секунд убедите кураторскую комиссию, почему именно ваша команда заслуживает победу." }
+];
+let remainingMissions = missions.map((_, i) => i);
+let currentMission = null;
+let completedMissions = 0;
+function updateMissionProgress() {
+    document.getElementById("missionProgress").textContent = "Выполнено: " + completedMissions + " / " + missions.length;
 }
-function answerGuess(name) {
-    if (!guessCurrent) return;
-    document.querySelectorAll("#guessOptions button").forEach(button => button.disabled = true);
-    if (name === guessCurrent.name) {
-        guessPoints++;
-        document.getElementById("guessFeedback").textContent = "✅ Верно! Это " + guessCurrent.name + ".";
-    } else {
-        document.getElementById("guessFeedback").textContent = "❌ Это " + guessCurrent.name + ". Попробуйте следующую фотографию.";
+function drawMission() {
+    if (remainingMissions.length === 0) {
+        document.getElementById("missionEmoji").textContent = "🏆";
+        document.getElementById("missionCategory").textContent = "Все миссии выполнены!";
+        document.getElementById("missionText").textContent = "SCA-25A справилась со всеми заданиями! Нажмите «Начать заново», чтобы сыграть ещё раз.";
+        document.getElementById("missionDoneBtn").disabled = true;
+        currentMission = null;
+        return;
     }
-    document.getElementById("guessScore").textContent = guessPoints;
-    guessCurrent = null;
+    const pick = Math.floor(Math.random() * remainingMissions.length);
+    currentMission = remainingMissions.splice(pick, 1)[0];
+    const mission = missions[currentMission];
+    document.getElementById("missionEmoji").textContent = mission.emoji;
+    document.getElementById("missionCategory").textContent = mission.category;
+    document.getElementById("missionText").textContent = mission.text;
+    document.getElementById("missionFeedback").textContent = "";
+    document.getElementById("missionDoneBtn").disabled = false;
 }
+function completeMission() {
+    if (currentMission === null) return;
+    completedMissions++;
+    currentMission = null;
+    document.getElementById("missionDoneBtn").disabled = true;
+    document.getElementById("missionFeedback").textContent = "✅ Отлично! Миссия засчитана. Готовы к следующей?";
+    updateMissionProgress();
+    if (remainingMissions.length === 0) {
+        document.getElementById("missionEmoji").textContent = "🏆";
+        document.getElementById("missionCategory").textContent = "Все миссии выполнены!";
+        document.getElementById("missionText").textContent = "Поздравляем! Вы прошли все секретные миссии.";
+    }
+}
+function resetMissions() {
+    remainingMissions = missions.map((_, i) => i);
+    currentMission = null;
+    completedMissions = 0;
+    document.getElementById("missionEmoji").textContent = "🕵️";
+    document.getElementById("missionCategory").textContent = "Ваша миссия ждёт";
+    document.getElementById("missionText").textContent = "Нажмите «Получить миссию», чтобы открыть первое задание.";
+    document.getElementById("missionFeedback").textContent = "";
+    document.getElementById("missionDoneBtn").disabled = true;
+    updateMissionProgress();
+}
+updateMissionProgress();
+
 const itQuestions = [
     { q: "Что означает HTML?", options: ["Язык разметки гипертекста", "Язык программирования баз данных", "Операционная система", "Графический редактор"], a: 0 },
     { q: "Что из этого является языком программирования?", options: ["HTTP", "Python", "Wi-Fi", "JPEG"], a: 1 },
