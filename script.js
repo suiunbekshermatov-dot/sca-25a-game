@@ -492,7 +492,7 @@ function revealFieldAnswer() {
 const SCA_SCORE_KEY = "sca25a_saved_team_scores_v1";
 function loadSavedTeamScores() {
     try {
-        const saved = JSON.parse(localStorage.getItem(SCA_SCORE_KEY) || "null");
+        const saved = JSON.parse(localStorage.getItem("sca25a_saved_team_scores_v1") || "null");
         return Array.isArray(saved) && saved.length === 4
             ? saved.map(value => Number.isFinite(Number(value)) ? Math.max(0, Number(value)) : 0)
             : [0, 0, 0, 0];
