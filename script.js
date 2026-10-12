@@ -347,3 +347,85 @@ function showFinalResults() {
         '<div class="leaderboard-row"><span>' + (index + 1) + '. ' + team.name + '</span><strong>' + team.score + ' балл(ов)</strong></div>'
     ).join("");
 }
+
+
+/* Поле чудес: общеобразовательные слова и факты */
+const fieldQuestions = [
+ { category:"География", clue:"Самая большая по площади страна мира.", answer:"РОССИЯ" },
+ { category:"Биология", clue:"Орган, который перекачивает кровь по телу.", answer:"СЕРДЦЕ" },
+ { category:"Космос", clue:"Звезда, вокруг которой вращается Земля.", answer:"СОЛНЦЕ" },
+ { category:"История", clue:"Древняя цивилизация, построившая пирамиды в Гизе.", answer:"ЕГИПЕТ" },
+ { category:"Литература", clue:"Автор романа «Война и мир». Фамилия.", answer:"ТОЛСТОЙ" },
+ { category:"Наука", clue:"Прибор для наблюдения за далёкими космическими объектами.", answer:"ТЕЛЕСКОП" },
+ { category:"Математика", clue:"Фигура с тремя сторонами.", answer:"ТРЕУГОЛЬНИК" },
+ { category:"Кыргызстан", clue:"Столица Кыргызской Республики.", answer:"БИШКЕК" },
+ { category:"Химия", clue:"Как называется химический элемент с символом O?", answer:"КИСЛОРОД" },
+ { category:"География", clue:"Самый большой океан Земли.", answer:"ТИХИЙ ОКЕАН" },
+ { category:"Искусство", clue:"Человек, который создаёт картины.", answer:"ХУДОЖНИК" },
+ { category:"Информатика", clue:"Набор команд для решения задачи.", answer:"АЛГОРИТМ" },
+ { category:"Биология", clue:"Зелёный пигмент, помогающий растениям поглощать свет.", answer:"ХЛОРОФИЛЛ" },
+ { category:"Астрономия", clue:"Естественный спутник Земли.", answer:"ЛУНА" },
+ { category:"Язык", clue:"Слово, противоположное по значению другому слову.", answer:"АНТОНИМ" },
+ { category:"Физика", clue:"Единица измерения силы в системе СИ.", answer:"НЬЮТОН" },
+ { category:"История науки", clue:"Учёный, сформулировавший закон всемирного тяготения. Фамилия.", answer:"НЬЮТОН" },
+ { category:"География", clue:"Континент, на котором находится Кыргызстан.", answer:"АЗИЯ" },
+ { category:"Технологии", clue:"Устройство, которое обрабатывает данные и выполняет программы.", answer:"КОМПЬЮТЕР" },
+ { category:"Экология", clue:"Наука о взаимоотношениях живых организмов и окружающей среды.", answer:"ЭКОЛОГИЯ" },
+ { category:"Математика", clue:"Результат сложения.", answer:"СУММА" },
+ { category:"Литература", clue:"Краткий поучительный рассказ с нравственным выводом.", answer:"БАСНЯ" },
+ { category:"География", clue:"Высокая форма рельефа с вершиной и склонами.", answer:"ГОРА" },
+ { category:"Информатика", clue:"Основной язык разметки веб-страниц.", answer:"HTML" }
+];
+const fieldAlphabet = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".split("");
+let fieldDeck = [], fieldCurrent = null, fieldGuessed = new Set(), fieldScore = 0, fieldRound = 0, fieldSolved = false;
+function startFieldGame() {
+ fieldDeck = fieldQuestions.map((_, i) => i).sort(() => Math.random() - 0.5);
+ fieldScore = 0; fieldRound = 0;
+ document.getElementById("fieldScore").textContent = fieldScore;
+ nextFieldRound();
+}
+function nextFieldRound() {
+ if (!fieldDeck.length) fieldDeck = fieldQuestions.map((_, i) => i).sort(() => Math.random() - 0.5);
+ fieldCurrent = fieldQuestions[fieldDeck.pop()];
+ fieldGuessed = new Set(); fieldSolved = false; fieldRound++;
+ document.getElementById("fieldCategory").textContent = fieldCurrent.category;
+ document.getElementById("fieldRound").textContent = "Раунд " + fieldRound;
+ document.getElementById("fieldClue").textContent = fieldCurrent.clue;
+ document.getElementById("fieldFeedback").textContent = "Выберите букву!";
+ renderFieldWord(); renderFieldLetters();
+}
+function renderFieldWord() {
+ if (!fieldCurrent) return;
+ document.getElementById("fieldWord").innerHTML = Array.from(fieldCurrent.answer).map(ch => {
+  if (ch === " ") return '<span class="field-letter space"></span>';
+  return '<span class="field-letter">' + (fieldGuessed.has(ch) || fieldSolved ? ch : "_") + '</span>';
+ }).join("");
+}
+function renderFieldLetters() {
+ document.getElementById("fieldLetters").innerHTML = fieldAlphabet.map(ch =>
+  '<button class="option-btn" ' + (fieldGuessed.has(ch) || fieldSolved ? 'disabled' : '') + ' onclick="guessFieldLetter(\'' + ch + '\')">' + ch + '</button>'
+ ).join("");
+}
+function guessFieldLetter(letter) {
+ if (!fieldCurrent || fieldSolved || fieldGuessed.has(letter)) return;
+ fieldGuessed.add(letter);
+ const hits = Array.from(fieldCurrent.answer).filter(ch => ch === letter).length;
+ if (hits) {
+  fieldScore += hits * 10;
+  document.getElementById("fieldFeedback").textContent = "✅ Есть такая буква! +" + (hits * 10) + " очков.";
+ } else {
+  document.getElementById("fieldFeedback").textContent = "❌ Такой буквы нет. Попробуйте другую.";
+ }
+ const letters = Array.from(fieldCurrent.answer).filter(ch => ch !== " ");
+ if (letters.every(ch => fieldGuessed.has(ch))) {
+  fieldSolved = true; fieldScore += 30;
+  document.getElementById("fieldFeedback").textContent = "🎉 Верно! Слово: " + fieldCurrent.answer + ". Бонус +30 очков!";
+ }
+ document.getElementById("fieldScore").textContent = fieldScore;
+ renderFieldWord(); renderFieldLetters();
+}
+function revealFieldAnswer() {
+ if (!fieldCurrent || fieldSolved) return;
+ fieldSolved = true; renderFieldWord(); renderFieldLetters();
+ document.getElementById("fieldFeedback").textContent = "Ответ: " + fieldCurrent.answer + ". Нажмите «Следующее слово», чтобы продолжить.";
+}
