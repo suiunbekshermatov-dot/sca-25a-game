@@ -381,3 +381,43 @@ h2 {
 .field-letters .option-btn:disabled { opacity:.35; cursor:default; }
 .field-controls { display:flex; justify-content:center; flex-wrap:wrap; gap:.5rem; }
 @media(max-width:700px) { .field-meta { justify-content:center; } .field-letter { width:1.9rem; height:2.4rem; } .field-letters { gap:.3rem; } .field-letters .option-btn { min-width:2.2rem; padding:.55rem; } .drum-label { transform-origin:35px 12px; } .label-0 {transform:rotate(22.5deg) translateY(-88px) rotate(-22.5deg);} .label-1 {transform:rotate(67.5deg) translateY(-88px) rotate(-67.5deg);} .label-2 {transform:rotate(112.5deg) translateY(-88px) rotate(-112.5deg);} .label-3 {transform:rotate(157.5deg) translateY(-88px) rotate(-157.5deg);} .label-4 {transform:rotate(202.5deg) translateY(-88px) rotate(-202.5deg);} .label-5 {transform:rotate(247.5deg) translateY(-88px) rotate(-247.5deg);} .label-6 {transform:rotate(292.5deg) translateY(-88px) rotate(-292.5deg);} .label-7 {transform:rotate(337.5deg) translateY(-88px) rotate(-337.5deg);} .drum-center {width:72px;height:72px;font-size:1rem;} .drum-center span{font-size:1.1rem;} }
+
+/* Jeopardy / Escape Room / общий рейтинг */
+.game-toolbar,.game-actions,.game-actions,.answer-row,.safe-entry { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:.75rem; margin:1rem 0; }
+.game-toolbar label,.safe-entry label { font-weight:800; color:#e2e8f0; }
+.game-select,.game-input { color:#f8fafc; background:#0f172a; border:1px solid rgba(255,255,255,.25); border-radius:10px; padding:.8rem 1rem; font:inherit; min-width:190px; }
+.game-input { flex:1; min-width:150px; }
+.jeopardy-board { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:.6rem; margin:1.5rem 0; }
+.jeopardy-category { min-height:72px; display:flex; align-items:center; justify-content:center; text-align:center; padding:.75rem .4rem; border-radius:12px; background:#312e81; border:1px solid #818cf8; font-weight:800; font-size:.92rem; }
+.jeopardy-cell { min-height:74px; border:1px solid rgba(255,255,255,.18); border-radius:12px; background:linear-gradient(145deg,#3730a3,#1d4ed8); color:#fde68a; font-size:1.5rem; font-weight:900; cursor:pointer; }
+.jeopardy-cell:hover:not(:disabled) { transform:translateY(-2px); filter:brightness(1.15); }
+.jeopardy-cell:disabled { opacity:.28; cursor:default; text-decoration:line-through; }
+.question-panel { min-height:130px; padding:1.3rem; border:1px solid var(--border-color); border-radius:16px; background:rgba(15,23,42,.65); text-align:center; }
+.question-panel h3 { color:#fcd34d; margin-bottom:.7rem; font-size:1.3rem; }
+.question-panel p { line-height:1.6; }
+.escape-card,.ranking-card { max-width:900px; margin:0 auto; }
+.safe-visual { max-width:480px; margin:0 auto 1.5rem; padding:1.4rem; border-radius:22px; border:5px solid #64748b; background:linear-gradient(145deg,#334155,#0f172a); box-shadow:inset 0 0 22px rgba(0,0,0,.45),0 12px 25px rgba(0,0,0,.2); }
+.safe-icon { font-size:3.5rem; }
+.safe-display { display:inline-block; margin:.5rem; padding:.7rem 1.4rem; border-radius:10px; background:#020617; color:#86efac; letter-spacing:.55rem; font-size:2rem; font-weight:900; border:1px solid #475569; }
+.safe-status { color:#cbd5e1; line-height:1.5; }
+.riddle-card { margin:1rem 0; padding:1.4rem; border:1px solid var(--border-color); border-radius:16px; text-align:left; }
+.riddle-progress { color:#fcd34d; font-weight:800; margin-bottom:.7rem; }
+.riddle-card h3 { font-size:1.25rem; line-height:1.5; margin-bottom:.7rem; }
+.answer-row { justify-content:flex-start; }
+.safe-entry { padding:1rem; border-radius:14px; background:rgba(15,23,42,.55); }
+.safe-code-input { flex:0 1 180px; text-align:center; letter-spacing:.4rem; font-size:1.2rem; }
+.safe-reward { padding:1.3rem; margin:1rem 0; border-radius:14px; color:#bbf7d0; background:rgba(22,163,74,.18); border:1px solid #22c55e; font-size:1.15rem; font-weight:800; }
+.ranking-summary { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; padding:1rem; margin-bottom:1rem; border-radius:14px; background:rgba(245,158,11,.13); }
+.ranking-summary strong { color:#fcd34d; }
+.leaderboard-row { display:flex; justify-content:space-between; gap:1rem; padding:.9rem 1rem; margin:.5rem 0; border-radius:10px; background:rgba(15,23,42,.5); text-align:left; }
+.leaderboard-row:first-child { border:1px solid rgba(250,204,21,.6); }
+.btn-danger { background:#b91c1c; }
+.btn-danger:hover { background:#991b1b; }
+@media(max-width:700px) {
+ .jeopardy-board { gap:.35rem; }
+ .jeopardy-category { min-height:68px; font-size:.72rem; padding:.4rem .2rem; overflow-wrap:anywhere; }
+ .jeopardy-cell { min-height:58px; font-size:1.15rem; }
+ .safe-display { font-size:1.5rem; letter-spacing:.35rem; }
+ .game-actions .btn,.answer-row .btn,.safe-entry .btn { width:100%; }
+ .leaderboard-row { font-size:.9rem; }
+}
