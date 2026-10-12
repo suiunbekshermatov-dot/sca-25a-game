@@ -174,15 +174,17 @@ loadMyth();
 
 
 // ================= Дополнительные игры SCA-25A =================
-const teamScores = [0, 0, 0, 0];
+const teamScores = loadSavedTeamScores();
 const teamNames = ["Команда 1", "Команда 2", "Команда 3", "Команда 4"];
 function changeTeamScore(teamIndex, delta) {
     teamScores[teamIndex] = Math.max(0, teamScores[teamIndex] + delta);
     document.getElementById("teamScore" + teamIndex).textContent = teamScores[teamIndex];
+    saveTeamScores();
 }
 function resetTeamScores() {
     teamScores.fill(0);
     teamScores.forEach((score, i) => document.getElementById("teamScore" + i).textContent = score);
+    saveTeamScores();
 }
 const challenges = [
     { emoji: "🧠", text: "Решите логическую загадку за 30 секунд." },
@@ -484,3 +486,214 @@ function revealFieldAnswer() {
  document.getElementById("spinFieldDrumBtn").disabled = true;
  document.getElementById("fieldFeedback").textContent = "Ответ: " + fieldCurrent.answer + ". Нажмите «Следующее слово», чтобы продолжить.";
 }
+
+
+// Новые режимы: Jeopardy, Escape Room и общий сохраняемый рейтинг.
+const SCA_SCORE_KEY = "sca25a_saved_team_scores_v1";
+function loadSavedTeamScores() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(SCA_SCORE_KEY) || "null");
+        return Array.isArray(saved) && saved.length === 4
+            ? saved.map(value => Number.isFinite(Number(value)) ? Math.max(0, Number(value)) : 0)
+            : [0, 0, 0, 0];
+    } catch (error) { return [0, 0, 0, 0]; }
+}
+function saveTeamScores() {
+    try { localStorage.setItem(SCA_SCORE_KEY, JSON.stringify(teamScores)); }
+    catch (error) { console.warn("Не удалось сохранить рейтинг в этом браузере.", error); }
+    renderOverallLeaderboard();
+}
+function renderOverallLeaderboard() {
+    const root = document.getElementById("overallLeaderboard");
+    if (!root) return;
+    const ordered = teamScores.map((score, index) => ({name: teamNames[index], score, index}))
+        .sort((a, b) => b.score - a.score);
+    root.innerHTML = ordered.map((team, place) =>
+        '<div class="leaderboard-row"><span>' + ["🥇","🥈","🥉","🎖️"][place] + " " + team.name +
+        '</span><strong>' + team.score + " балл(ов)</strong></div>"
+    ).join("");
+    const leader = document.getElementById("rankingLeader");
+    if (leader) leader.textContent = ordered[0].score > 0 ? ordered[0].name + " — " + ordered[0].score + " балл(ов)" : "Баллы ещё не начислены";
+    for (let i = 0; i < teamScores.length; i++) {
+        const scoreNode = document.getElementById("teamScore" + i);
+        if (scoreNode) scoreNode.textContent = teamScores[i];
+    }
+}
+function resetAllScores() {
+    if (!confirm("Сбросить все баллы команд? Это действие нельзя отменить.")) return;
+    teamScores.fill(0);
+    saveTeamScores();
+    document.getElementById("rankingFeedback").textContent = "Все баллы сброшены.";
+}
+function exportRankingCSV() {
+    const rows = [["Место","Команда","Баллы"], ...teamScores
+        .map((score, index) => ({score, name:teamNames[index]}))
+        .sort((a,b) => b.score-a.score)
+        .map((team,index) => [index+1,team.name,team.score])];
+    const csv = "\uFEFF" + rows.map(row => row.map(value => '"' + String(value).replace(/"/g,'""') + '"').join(";")).join("\r\n");
+    const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url; link.download = "SCA-25A-obshchiy-reyting.csv";
+    document.body.appendChild(link); link.click(); link.remove(); URL.revokeObjectURL(url);
+}
+
+const jeopardyQuestions = [
+    {category:"IT и компьютеры",points:100,q:"Как расшифровывается HTML?",a:"HyperText Markup Language — язык разметки гипертекста."},
+    {category:"IT и компьютеры",points:200,q:"Какое устройство обычно называют «мозгом» компьютера?",a:"Центральный процессор (CPU)."},
+    {category:"IT и компьютеры",points:300,q:"Что хранит данные даже после выключения питания: RAM или SSD?",a:"SSD (или другой накопитель)."},
+    {category:"IT и компьютеры",points:400,q:"Как называется ошибка в программе?",a:"Баг (bug)."},
+    {category:"Логика",points:100,q:"Сколько месяцев в году имеют 28 дней?",a:"Все 12 месяцев."},
+    {category:"Логика",points:200,q:"Продолжите ряд: 2, 4, 8, 16, ...",a:"32 — каждое число умножается на 2."},
+    {category:"Логика",points:300,q:"У двух отцов и двух сыновей три яблока. Каждому досталось по одному. Как?",a:"Это дедушка, отец и сын — всего три человека."},
+    {category:"Логика",points:400,q:"Что становится больше, если его перевернуть вверх ногами: 6 или 9?",a:"6 превращается в 9."},
+    {category:"Колледж и учёба",points:100,q:"Как называется человек, который помогает группе в организационных и воспитательных вопросах?",a:"Куратор."},
+    {category:"Колледж и учёба",points:200,q:"Как называется заранее установленный срок сдачи задания?",a:"Дедлайн."},
+    {category:"Колледж и учёба",points:300,q:"Назовите одно полезное правило командной работы.",a:"Например: распределять роли, слушать друг друга и соблюдать договорённости."},
+    {category:"Колледж и учёба",points:400,q:"Какой документ или портфолио помогает показать навыки работодателю онлайн?",a:"Например, профиль LinkedIn или портфолио проектов."},
+    {category:"Общие знания",points:100,q:"Как называется столица Кыргызстана?",a:"Бишкек."},
+    {category:"Общие знания",points:200,q:"Сколько градусов в прямом угле?",a:"90 градусов."},
+    {category:"Общие знания",points:300,q:"Как называется наука о живых организмах?",a:"Биология."},
+    {category:"Общие знания",points:400,q:"Какой газ растения поглощают при фотосинтезе?",a:"Углекислый газ (CO₂)."}
+];
+let jeopardyUsed = new Set();
+let currentJeopardyQuestion = null;
+let jeopardyAnswerVisible = false;
+function renderJeopardyBoard() {
+    const board = document.getElementById("jeopardyBoard");
+    if (!board) return;
+    const categories = [...new Set(jeopardyQuestions.map(item => item.category))];
+    board.innerHTML = categories.map(category => '<div class="jeopardy-category">' + category + '</div>').join("");
+    for (let row = 0; row < 4; row++) {
+        categories.forEach(category => {
+            const item = jeopardyQuestions.find(q => q.category === category && q.points === (row+1)*100);
+            const index = jeopardyQuestions.indexOf(item);
+            const button = document.createElement("button");
+            button.className = "jeopardy-cell";
+            button.textContent = item.points;
+            button.disabled = jeopardyUsed.has(index);
+            button.setAttribute("aria-label", category + ", " + item.points + " баллов");
+            button.addEventListener("click", () => selectJeopardyQuestion(index));
+            board.appendChild(button);
+        });
+    }
+}
+function selectJeopardyQuestion(index) {
+    if (jeopardyUsed.has(index)) return;
+    currentJeopardyQuestion = index;
+    jeopardyAnswerVisible = false;
+    const item = jeopardyQuestions[index];
+    document.getElementById("jeopardyQuestionCard").innerHTML =
+        '<h3>' + item.category + ' · ' + item.points + ' баллов</h3><p>' + item.q + '</p><p id="jeopardyAnswerText" class="small-note">Ответ пока скрыт.</p>';
+}
+function revealJeopardyAnswer() {
+    if (currentJeopardyQuestion === null) {
+        document.getElementById("jeopardyQuestionCard").innerHTML = "<h3>Сначала выберите вопрос</h3><p>Нажмите на ячейку с баллами на игровом поле.</p>";
+        return;
+    }
+    const item = jeopardyQuestions[currentJeopardyQuestion];
+    const answer = document.getElementById("jeopardyAnswerText");
+    if (answer) { answer.textContent = "Ответ: " + item.a; answer.classList.remove("small-note"); }
+    jeopardyAnswerVisible = true;
+}
+function scoreJeopardyAnswer(correct) {
+    if (currentJeopardyQuestion === null) {
+        document.getElementById("jeopardyQuestionCard").innerHTML = "<h3>Выберите вопрос</h3><p>Сначала выберите ячейку на игровом поле.</p>";
+        return;
+    }
+    const index = currentJeopardyQuestion;
+    const item = jeopardyQuestions[index];
+    if (correct && !jeopardyAnswerVisible) {
+        document.getElementById("jeopardyQuestionCard").innerHTML = "<h3>Сначала откройте ответ</h3><p>Нажмите «Показать ответ», чтобы ведущий мог проверить ответ команды.</p>";
+        return;
+    }
+    jeopardyUsed.add(index);
+    if (correct) {
+        const teamIndex = Number(document.getElementById("jeopardyTeam").value);
+        teamScores[teamIndex] += item.points;
+        saveTeamScores();
+        document.getElementById("jeopardyQuestionCard").innerHTML = "<h3>✅ +" + item.points + " баллов: " + teamNames[teamIndex] + "</h3><p>Баллы добавлены в общий рейтинг.</p>";
+    } else {
+        document.getElementById("jeopardyQuestionCard").innerHTML = "<h3>Вопрос завершён</h3><p>Баллы не начислены. Выберите следующий вопрос.</p>";
+    }
+    currentJeopardyQuestion = null;
+    jeopardyAnswerVisible = false;
+    renderJeopardyBoard();
+}
+
+const escapeRiddles = [
+    {q:"Какой язык разметки веб-страниц состоит из четырёх букв?", answers:["html"], digit:"2", hint:"HTML"},
+    {q:"Как называется устройство, которое указывает на экран и обычно управляется рукой?", answers:["мышь","компьютерная мышь"], digit:"5", hint:"Мышь"},
+    {q:"Сколько сторон у шестиугольника?", answers:["6","шесть"], digit:"8", hint:"Шесть"},
+    {q:"Как называется секретная комбинация для входа в аккаунт?", answers:["пароль"], digit:"4", hint:"Пароль"}
+];
+let escapeStep = 0;
+let escapeUnlocked = false;
+function normalizeRiddleAnswer(value) {
+    return value.toLocaleLowerCase("ru-RU").trim().replace(/ё/g,"е").replace(/[.,!?;:]/g,"").replace(/\s+/g," ");
+}
+function checkEscapeAnswer() {
+    if (escapeUnlocked) return;
+    const input = document.getElementById("escapeAnswer");
+    const value = normalizeRiddleAnswer(input.value);
+    const riddle = escapeRiddles[escapeStep];
+    if (!value) { document.getElementById("escapeFeedback").textContent = "Введите ответ, прежде чем проверять."; return; }
+    if (riddle.answers.includes(value)) {
+        const digits = escapeRiddles.slice(0, escapeStep+1).map(item => item.digit);
+        document.getElementById("safeDisplay").textContent = digits.join(" ") + (digits.length < 4 ? " _ ".repeat(4-digits.length).trim() : "");
+        document.getElementById("escapeFeedback").textContent = "✅ Верно! Цифра " + riddle.digit + " открыта.";
+        escapeStep++;
+        input.value = "";
+        if (escapeStep >= escapeRiddles.length) {
+            document.getElementById("escapeRiddle").textContent = "Все загадки решены! Введите четыре цифры в поле кода.";
+            document.getElementById("escapeProgress").textContent = "Все 4 загадки решены";
+            document.getElementById("escapeStatus").textContent = "Код найден. Осталось открыть сейф.";
+        } else {
+            document.getElementById("escapeRiddle").textContent = escapeRiddles[escapeStep].q;
+            document.getElementById("escapeProgress").textContent = "Загадка " + (escapeStep+1) + " из 4";
+        }
+    } else {
+        document.getElementById("escapeFeedback").textContent = "❌ Не совсем. Попробуйте ещё раз или обсудите загадку с командой.";
+    }
+}
+function openVirtualSafe() {
+    if (escapeUnlocked) return;
+    const code = document.getElementById("safeCode").value.trim();
+    if (escapeStep < escapeRiddles.length) {
+        document.getElementById("escapeStatus").textContent = "Сначала решите все четыре загадки.";
+        return;
+    }
+    if (code !== escapeRiddles.map(item => item.digit).join("")) {
+        document.getElementById("escapeStatus").textContent = "Код неверный. Проверьте открытые цифры.";
+        return;
+    }
+    escapeUnlocked = true;
+    const teamIndex = Number(document.getElementById("escapeTeam").value);
+    teamScores[teamIndex] += 100;
+    saveTeamScores();
+    document.getElementById("safeStatus").textContent = "🔓 Сейф открыт! +100 баллов команде " + teamNames[teamIndex] + ".";
+    document.getElementById("safeDisplay").textContent = code.split("").join(" ");
+    document.getElementById("safeReward").hidden = false;
+    document.getElementById("safeCode").disabled = true;
+    document.getElementById("escapeFeedback").textContent = "🎉 Победа! Баллы внесены в общий рейтинг.";
+}
+function resetEscapeRoom() {
+    escapeStep = 0; escapeUnlocked = false;
+    document.getElementById("safeDisplay").textContent = "_ _ _ _";
+    document.getElementById("safeStatus").textContent = "Сейф закрыт. Начните с первой загадки.";
+    document.getElementById("escapeProgress").textContent = "Загадка 1 из 4";
+    document.getElementById("escapeRiddle").textContent = escapeRiddles[0].q;
+    document.getElementById("escapeAnswer").value = "";
+    document.getElementById("escapeAnswer").disabled = false;
+    document.getElementById("safeCode").value = "";
+    document.getElementById("safeCode").disabled = false;
+    document.getElementById("escapeFeedback").textContent = "";
+    document.getElementById("safeReward").hidden = true;
+}
+document.getElementById("escapeAnswer").addEventListener("keydown", event => { if (event.key === "Enter") checkEscapeAnswer(); });
+renderJeopardyBoard();
+renderOverallLeaderboard();
+teamScores.forEach((score, index) => {
+    const node = document.getElementById("teamScore" + index);
+    if (node) node.textContent = score;
+});
