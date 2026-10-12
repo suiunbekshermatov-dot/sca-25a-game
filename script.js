@@ -33,6 +33,7 @@ function switchTab(tabId) {
     document.getElementById(tabId).classList.add('active');
     const activeButton = Array.from(document.querySelectorAll('.nav-btn')).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + tabId + "'"));
     if (activeButton) activeButton.classList.add('active');
+    if (tabId === 'guess' && !guessCurrent) nextGuess();
 }
 
 // Рандомайзер / Рулетка
