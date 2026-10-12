@@ -421,3 +421,30 @@ h2 {
  .game-actions .btn,.answer-row .btn,.safe-entry .btn { width:100%; }
  .leaderboard-row { font-size:.9rem; }
 }
+
+
+/* Математическая дуэль */
+.mathduel-card { max-width:1000px; margin:0 auto; }
+.mathduel-settings { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; text-align:left; margin-bottom:1.5rem; }
+.mathduel-settings > div { display:flex; flex-direction:column; gap:.55rem; }
+.mathduel-settings label,.math-player label { font-size:.9rem; font-weight:800; color:#cbd5e1; }
+.tug-stage { display:grid; grid-template-columns: minmax(100px,1fr) minmax(130px,2fr) minmax(100px,1fr); gap:.6rem; align-items:center; padding:1.3rem .8rem; border-radius:18px; background:linear-gradient(#bae6fd 0 44%,#a3c936 44% 100%); color:#172554; overflow:hidden; }
+.tug-team { display:flex; flex-direction:column; align-items:center; gap:.4rem; text-align:center; font-weight:900; }
+.tug-team strong { font-size:2rem; color:#312e81; }
+.tug-track { position:relative; height:32px; border-radius:18px; background:rgba(255,255,255,.4); border:2px solid rgba(30,41,59,.25); }
+.tug-midline { position:absolute; left:50%; top:-10px; bottom:-10px; width:3px; background:#ef4444; z-index:2; }
+.tug-rope { position:absolute; top:50%; left:50%; width:100%; height:8px; transform:translate(-50%,-50%); background:#854d0e; border-radius:10px; transition:left .65s ease; }
+.tug-flag { position:absolute; left:50%; top:-21px; color:#dc2626; font-size:1.6rem; transform:translateX(-50%); }
+.math-question-panel { margin:1.2rem 0; padding:1.4rem; border-radius:18px; background:rgba(15,23,42,.75); border:1px solid var(--border-color); }
+.math-round-label { color:#fcd34d; font-weight:800; margin-bottom:.6rem; }
+.math-question { font-size:clamp(1.7rem,4vw,3rem); font-weight:900; line-height:1.3; color:#fff; }
+.math-feedback { margin-top:.7rem; color:#cbd5e1; line-height:1.5; }
+.math-players { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.math-player { padding:1.2rem; border-radius:16px; background:rgba(15,23,42,.5); border:1px solid var(--border-color); display:flex; flex-direction:column; align-items:stretch; gap:.7rem; }
+.player-left { border-top:4px solid #60a5fa; }
+.player-right { border-top:4px solid #c084fc; }
+.math-player h3 { margin-bottom:.3rem; }
+.math-answer { width:100%; text-align:center; font-size:1.2rem; }
+.player-status { min-height:1.5rem; color:#cbd5e1; font-size:.9rem; }
+.math-player .btn:disabled { opacity:.45; cursor:default; }
+@media(max-width:700px) { .mathduel-settings { grid-template-columns:1fr; } .math-players { grid-template-columns:1fr; } .tug-stage { grid-template-columns: minmax(75px,1fr) minmax(90px,1.5fr) minmax(75px,1fr); padding:.8rem .35rem; } .tug-team { font-size:.78rem; overflow-wrap:anywhere; } .tug-team strong { font-size:1.5rem; } .math-question { font-size:1.7rem; } }
