@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кураторский час — Группа SCA-25A</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20261012-drum">
+    <link rel="stylesheet" href="style.css?v=20261012-games">
 </head>
 <body>
 
@@ -24,6 +24,9 @@
             <button class="nav-btn" onclick="switchTab('mission')">🕵️ Секретная миссия</button>
             <button class="nav-btn" onclick="switchTab('itbattle')">💻 IT-битва</button>
             <button class="nav-btn" onclick="switchTab('final')">🥇 Финал</button>
+            <button class="nav-btn" onclick="switchTab('jeopardy')">🏆 Jeopardy</button>
+            <button class="nav-btn" onclick="switchTab('escape')">🔐 Escape Room</button>
+            <button class="nav-btn" onclick="switchTab('ranking')">📊 Общий рейтинг</button>
         </nav>
     </header>
 
@@ -149,6 +152,46 @@
             </div>
         </div>
 
+
+        <!-- JEOPARDY -->
+        <div id="jeopardy" class="section">
+            <h2>🏆 Jeopardy — интеллектуальная игра</h2>
+            <p class="section-intro">Выберите команду, категорию и стоимость вопроса. За правильный ответ команда получает указанные баллы.</p>
+            <div class="feature-card">
+                <div class="game-toolbar"><label for="jeopardyTeam">Команда:</label><select id="jeopardyTeam" class="game-select"><option value="0">🔵 Команда 1</option><option value="1">🟣 Команда 2</option><option value="2">🟢 Команда 3</option><option value="3">🟠 Команда 4</option></select></div>
+                <div id="jeopardyBoard" class="jeopardy-board"></div>
+                <div id="jeopardyQuestionCard" class="question-panel" aria-live="polite"><h3>Выберите вопрос на игровом поле</h3><p>После ответа нажмите «Показать ответ», затем отметьте результат.</p></div>
+                <div class="game-actions"><button class="btn" onclick="revealJeopardyAnswer()">Показать ответ</button><button class="btn btn-accent" onclick="scoreJeopardyAnswer(true)">✅ Ответ верный</button><button class="btn" onclick="scoreJeopardyAnswer(false)">Пропустить / неверно</button></div>
+            </div>
+        </div>
+
+        <!-- ESCAPE ROOM -->
+        <div id="escape" class="section">
+            <h2>🔐 Escape Room — код виртуального сейфа</h2>
+            <p class="section-intro">Решите четыре загадки по порядку. Каждая правильная разгадка открывает одну цифру кода. Финальный код сейфа: 2584.</p>
+            <div class="feature-card escape-card">
+                <div class="safe-visual"><div class="safe-icon">🔒</div><div class="safe-display" id="safeDisplay">_ _ _ _</div><div class="safe-status" id="safeStatus">Сейф закрыт. Начните с первой загадки.</div></div>
+                <div class="game-toolbar"><label for="escapeTeam">Команда:</label><select id="escapeTeam" class="game-select"><option value="0">🔵 Команда 1</option><option value="1">🟣 Команда 2</option><option value="2">🟢 Команда 3</option><option value="3">🟠 Команда 4</option></select></div>
+                <div class="riddle-card"><div class="riddle-progress" id="escapeProgress">Загадка 1 из 4</div><h3 id="escapeRiddle">Язык разметки веб-страниц из четырёх букв?</h3><p class="small-note">Введите ответ. Регистр не имеет значения.</p><div class="answer-row"><input id="escapeAnswer" class="game-input" type="text" placeholder="Ваш ответ" autocomplete="off"><button class="btn btn-accent" onclick="checkEscapeAnswer()">Проверить</button></div><p id="escapeFeedback" class="result-explanation" aria-live="polite"></p></div>
+                <div class="safe-entry"><label for="safeCode">Код сейфа:</label><input id="safeCode" class="game-input safe-code-input" inputmode="numeric" maxlength="4" placeholder="4 цифры"><button class="btn" onclick="openVirtualSafe()">Открыть сейф</button></div>
+                <div id="safeReward" class="safe-reward" hidden>🎉 СЕЙФ ОТКРЫТ! Команда прошла Escape Room и получает 100 баллов.</div>
+                <button class="btn" onclick="resetEscapeRoom()">Начать Escape Room заново</button>
+            </div>
+        </div>
+
+        <!-- ОБЩИЙ РЕЙТИНГ -->
+        <div id="ranking" class="section">
+            <h2>🥇 Общий рейтинг SCA-25A</h2>
+            <p class="section-intro">Рейтинг объединяет командный баттл, Jeopardy и Escape Room. Баллы сохраняются в браузере на этом устройстве и остаются после перезагрузки страницы.</p>
+            <div class="feature-card ranking-card">
+                <div class="ranking-summary"><span>🏆 Лидер сейчас</span><strong id="rankingLeader">Пока нет лидера</strong></div>
+                <div id="overallLeaderboard" class="leaderboard"></div>
+                <div class="game-actions"><button class="btn" onclick="renderOverallLeaderboard()">🔄 Обновить рейтинг</button><button class="btn btn-accent" onclick="exportRankingCSV()">⬇️ Скачать CSV</button><button class="btn btn-danger" onclick="resetAllScores()">Сбросить все баллы</button></div>
+                <p id="rankingFeedback" class="small-note" aria-live="polite"></p>
+                <p class="small-note">Важно: сохранение локальное — результаты видны в этом браузере. Для синхронизации между разными телефонами и компьютерами понадобится общая база данных.</p>
+            </div>
+        </div>
+
         <!-- ФИНАЛ -->
         <div id="final" class="section">
             <h2>🥇 Финал кураторского часа</h2>
@@ -163,6 +206,6 @@
         </div>
     </main>
 
-    <script src="script.js?v=20261012-drum"></script>
+    <script src="script.js?v=20261012-games"></script>
 </body>
 </html>
