@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кураторский час — Группа SCA-25A</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20261012-field2">
+    <link rel="stylesheet" href="style.css?v=20261012-drum">
 </head>
 <body>
 
@@ -48,16 +48,23 @@
             <p class="section-intro">Угадайте слово по теме и подсказке. За правильные буквы получайте очки!</p>
             <div class="feature-card field-card">
                 <div class="field-meta"><span id="fieldCategory">Категория</span><span id="fieldRound">Раунд 0</span><span>Очки: <strong id="fieldScore">0</strong></span></div>
-                <div id="fieldClue" class="field-clue">Нажмите «Начать игру»</div>
+                <p class="section-intro">Крутите барабан, получайте очки или специальные ходы и угадывайте слово по буквам!</p>
+                <div class="drum-stage">
+                    <div class="drum-pointer">▼</div>
+                    <div id="fieldDrum" class="field-drum" aria-label="Барабан очков"><div class="drum-center">SCA<br><span>25A</span></div></div>
+                </div>
+                <div id="fieldPrize" class="field-prize">Барабан готов к вращению!</div>
+                <button id="spinFieldDrumBtn" class="btn btn-accent drum-spin-btn" onclick="spinFieldDrum()">🎡 Крутить барабан!</button>
+                <div id="fieldClue" class="field-clue">Нажмите «Начать игру», чтобы загадать слово.</div>
                 <div id="fieldWord" class="field-word">_ _ _ _ _</div>
                 <p id="fieldFeedback" class="result-explanation" aria-live="polite"></p>
                 <div id="fieldLetters" class="field-letters"></div>
                 <div class="field-controls">
-                    <button class="btn btn-accent" onclick="startFieldGame()">Начать игру</button>
+                    <button class="btn" onclick="startFieldGame()">Начать игру</button>
                     <button class="btn" onclick="revealFieldAnswer()">Открыть ответ</button>
                     <button class="btn" onclick="nextFieldRound()">Следующее слово →</button>
                 </div>
-                <p class="small-note">За каждую найденную букву — 10 очков за каждое её появление. За разгаданное слово — бонус 30 очков.</p>
+                <p class="small-note">Сначала крутите барабан, затем выбирайте букву. Повторная буква не засчитывается.</p>
             </div>
         </div>
 
@@ -156,6 +163,6 @@
         </div>
     </main>
 
-    <script src="script.js?v=20261012-field2"></script>
+    <script src="script.js?v=20261012-drum"></script>
 </body>
 </html>
