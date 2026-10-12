@@ -414,7 +414,10 @@ function spinFieldDrum() {
  const index = Math.floor(Math.random() * fieldPrizes.length);
  fieldCurrentPrize = fieldPrizes[index];
  const segment = 360 / fieldPrizes.length;
- const target = 360 * (5 + Math.floor(Math.random() * 3)) + (360 - (index * segment + segment / 2));
+ const desiredAngle = (360 - (index * segment + segment / 2) + 360) % 360;
+ const currentAngle = ((fieldDrumRotation % 360) + 360) % 360;
+ const alignment = (desiredAngle - currentAngle + 360) % 360;
+ const target = 360 * (5 + Math.floor(Math.random() * 3)) + alignment;
  fieldDrumRotation += target;
  document.getElementById("fieldDrum").style.transform = "rotate(" + fieldDrumRotation + "deg)";
  document.getElementById("fieldPrize").textContent = "Барабан вращается…";
