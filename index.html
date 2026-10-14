@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кураторский час — Группа SCA-25A</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20261012-arena">
+    <link rel="stylesheet" href="style.css?v=20261014-menu">
 </head>
 <body>
 
@@ -13,23 +13,22 @@
         <div class="logo">
             🎓 SCA-25A Кураторский час
         </div>
-        <nav>
-            <button class="nav-btn active" onclick="switchTab('wheel')">🎰 Рандомайзер</button>
-            <button class="nav-btn" onclick="switchTab('field')">🎡 Поле чудес</button>
-            <button class="nav-btn" onclick="switchTab('gallery')">👥 Студенты (24)</button>
-            <button class="nav-btn" onclick="switchTab('quiz')">❓ Квиз</button>
-            <button class="nav-btn" onclick="switchTab('myth')">⚖️ Правда / Миф</button>
-            <button class="nav-btn" onclick="switchTab('teams')">🏆 Командный баттл</button>
-            <button class="nav-btn" onclick="switchTab('challenge')">🎡 Колесо испытаний</button>
-            <button class="nav-btn" onclick="switchTab('mission')">🕵️ Секретная миссия</button>
-            <button class="nav-btn" onclick="switchTab('itbattle')">💻 IT-битва</button>
-            <button class="nav-btn" onclick="switchTab('final')">🥇 Финал</button>
-            <button class="nav-btn" onclick="switchTab('jeopardy')">🏆 Jeopardy</button>
-            <button class="nav-btn" onclick="switchTab('escape')">🔐 Escape Room</button>
-            <button class="nav-btn" onclick="switchTab('ranking')">📊 Общий рейтинг</button>
-            <button class="nav-btn" onclick="switchTab('mathduel')">➗ Математическая дуэль</button>
-        </nav>
-    </header>
+        <nav aria-label="Меню игр SCA-25A">
+            <button class="nav-btn active" onclick="switchTab('wheel')">01 · 🎰 Рандомайзер</button>
+            <button class="nav-btn" onclick="switchTab('field')">02 · 🎡 Поле чудес</button>
+            <button class="nav-btn" onclick="switchTab('gallery')">03 · 👥 Студенты</button>
+            <button class="nav-btn" onclick="switchTab('quiz')">04 · ❓ Квиз</button>
+            <button class="nav-btn" onclick="switchTab('myth')">05 · ⚖️ Правда / Миф</button>
+            <button class="nav-btn" onclick="switchTab('teams')">06 · 🏆 Командный баттл</button>
+            <button class="nav-btn" onclick="switchTab('challenge')">07 · 🎯 Колесо испытаний</button>
+            <button class="nav-btn" onclick="switchTab('mission')">08 · 🕵️ Секретная миссия</button>
+            <button class="nav-btn" onclick="switchTab('itbattle')">09 · 💻 IT-битва</button>
+            <button class="nav-btn" onclick="switchTab('jeopardy')">10 · 🧠 Jeopardy</button>
+            <button class="nav-btn" onclick="switchTab('escape')">11 · 🔐 Escape Room</button>
+            <button class="nav-btn" onclick="switchTab('ranking')">12 · 📊 Общий рейтинг</button>
+            <button class="nav-btn" onclick="switchTab('mathduel')">13 · ➗ Математическая дуэль</button>
+            <button class="nav-btn" onclick="switchTab('final')">14 · 🥇 Финал</button>
+        </nav>   </header>
 
     <main>
         <section class="site-hero" aria-label="Добро пожаловать">
@@ -243,6 +242,6 @@
         </div>
     </main>
 
-    <script src="script.js?v=20261012-arena"></script>
+    <script src="script.js?v=20261014-menu"></script>
 </body>
 </html>
