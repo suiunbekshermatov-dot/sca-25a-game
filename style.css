@@ -510,3 +510,38 @@ main { width:min(1440px,100%); margin:0 auto; padding:clamp(1rem,3vw,2.5rem); }
 .how-to-play li { margin:.38rem 0; padding-left:.15rem; line-height:1.55; color:#d5def7; }
 .how-to-tip { margin:.75rem 0 0; padding:.65rem .8rem; border-radius:9px; background:rgba(250,204,21,.08); color:#fde68a; line-height:1.5; font-size:.9rem; }
 @media(max-width:600px) { .how-to-play { padding:.9rem; gap:.65rem; } .how-to-play h3 { font-size:1rem; } .how-to-play li { font-size:.9rem; } }
+
+
+/* Showtime upgrade: vibrant arcade landing and presentation mode */
+.site-hero { isolation:isolate; }
+.site-hero:after { content:""; position:absolute; inset:0; z-index:-1; opacity:.22; background-image:radial-gradient(circle at 1px 1px,rgba(255,255,255,.65) 1px,transparent 0); background-size:27px 27px; mask-image:linear-gradient(90deg,black,transparent 82%); pointer-events:none; }
+.hero-show-btn { color:#f5f3ff; border:1px solid rgba(196,181,253,.35); background:linear-gradient(130deg,rgba(139,92,246,.28),rgba(34,211,238,.15)); }
+.arena-shortcuts { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin:0 0 1.25rem; }
+.shortcut-card { position:relative; display:flex; flex-direction:column; align-items:flex-start; min-height:185px; padding:1.25rem; text-align:left; border:1px solid rgba(255,255,255,.13); border-radius:20px; color:#f8fafc; overflow:hidden; cursor:pointer; transition:transform .22s,border-color .22s,box-shadow .22s; }
+.shortcut-card:after { content:""; position:absolute; width:145px; height:145px; right:-38px; top:-45px; border:1px solid rgba(255,255,255,.17); border-radius:50%; box-shadow:0 0 0 18px rgba(255,255,255,.025),0 0 0 38px rgba(255,255,255,.02); }
+.shortcut-card:hover { transform:translateY(-5px); border-color:rgba(255,255,255,.35); box-shadow:0 16px 40px rgba(0,0,0,.2); }
+.shortcut-purple { background:linear-gradient(135deg,#4338ca,#6d28d9 70%,#312e81); }
+.shortcut-cyan { background:linear-gradient(135deg,#0e7490,#155e75 65%,#164e63); }
+.shortcut-gold { background:linear-gradient(135deg,#92400e,#b45309 65%,#78350f); }
+.shortcut-icon { font-size:1.85rem; margin-bottom:.8rem; filter:drop-shadow(0 4px 10px rgba(0,0,0,.25)); }
+.shortcut-title { font-size:1.1rem; font-weight:900; letter-spacing:-.02em; }
+.shortcut-caption { margin-top:.4rem; color:rgba(255,255,255,.8); font-size:.82rem; line-height:1.45; }
+.shortcut-arrow { margin-top:auto; padding-top:.9rem; font-size:.76rem; font-weight:800; color:#fff; }
+.arena-motto { display:flex; align-items:center; gap:.9rem; margin:0 0 2rem; padding:1rem 1.25rem; border:1px solid rgba(129,140,248,.17); border-radius:16px; background:linear-gradient(90deg,rgba(99,102,241,.12),rgba(34,211,238,.055)); }
+.arena-motto>span:first-child { font-size:1.6rem; }
+.arena-motto strong { color:#e0e7ff; }
+.arena-motto p { margin-top:.25rem; color:#aebde0; font-size:.86rem; }
+.motto-stars { margin-left:auto; color:#fcd34d; letter-spacing:.25em; white-space:nowrap; }
+body.show-mode { --bg-gradient:radial-gradient(ellipse at 50% 0%,#312e81 0%,#11153b 42%,#030712 100%); }
+body.show-mode header { border-bottom-color:rgba(103,232,249,.48); box-shadow:0 4px 35px rgba(99,102,241,.22); }
+body.show-mode .site-hero { border-color:rgba(103,232,249,.55); box-shadow:0 0 0 1px rgba(103,232,249,.08),0 0 60px rgba(99,102,241,.23),0 24px 80px rgba(0,0,0,.28); }
+body.show-mode .hero-core { animation:showPulse 1.8s ease-in-out infinite alternate; }
+body.show-mode .shortcut-card { box-shadow:0 0 25px rgba(129,140,248,.13); }
+body.show-mode:before { content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.15; background:linear-gradient(115deg,transparent 20%,rgba(103,232,249,.18) 48%,transparent 65%); background-size:220% 100%; animation:showSweep 7s linear infinite; }
+body.show-mode header,body.show-mode main { position:relative; z-index:1; }
+@keyframes showPulse { from { transform:rotate(-8deg) scale(1); filter:saturate(1); } to { transform:rotate(4deg) scale(1.06); filter:saturate(1.4); } }
+@keyframes showSweep { from { background-position:200% 0; } to { background-position:-20% 0; } }
+@media(max-width:700px) { .arena-shortcuts { grid-template-columns:1fr; } .shortcut-card { min-height:150px; } .arena-motto { align-items:flex-start; } .motto-stars { display:none; } }
+.show-burst { position:fixed; z-index:9999; top:24%; left:50%; transform:translateX(-50%); color:#fde68a; font-size:clamp(1.6rem,5vw,3rem); letter-spacing:.35em; pointer-events:none; text-shadow:0 0 20px rgba(250,204,21,.7); animation:burstRise 1.6s ease-out forwards; white-space:nowrap; }
+@keyframes burstRise { 0% { opacity:0; transform:translate(-50%,20px) scale(.7); } 20% { opacity:1; } 100% { opacity:0; transform:translate(-50%,-95px) scale(1.25); } }
+@media(prefers-reduced-motion:reduce) { body.show-mode .hero-core,body.show-mode:before,.show-burst { animation:none!important; } }
