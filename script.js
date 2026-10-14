@@ -793,3 +793,22 @@ document.getElementById("mathTeamRight").addEventListener("change",updateMathDue
 document.getElementById("mathLeftAnswer").addEventListener("keydown",event=>{if(event.key==="Enter")submitMathAnswer("left");});
 document.getElementById("mathRightAnswer").addEventListener("keydown",event=>{if(event.key==="Enter")submitMathAnswer("right");});
 updateMathDuelDisplay();
+
+
+// Showtime: presentation mode for the smart board.
+function toggleShowMode() {
+    const enabled = document.body.classList.toggle("show-mode");
+    const button = document.getElementById("showModeBtn");
+    if (button) {
+        button.textContent = enabled ? "✨ Режим шоу включён" : "✨ Режим шоу";
+        button.setAttribute("aria-pressed", enabled ? "true" : "false");
+    }
+    if (enabled) {
+        const burst = document.createElement("div");
+        burst.className = "show-burst";
+        burst.setAttribute("aria-hidden", "true");
+        burst.textContent = "✦  ✧  ✦  ✧  ✦";
+        document.body.appendChild(burst);
+        window.setTimeout(() => burst.remove(), 1700);
+    }
+}
