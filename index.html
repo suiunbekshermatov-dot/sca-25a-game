@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кураторский час — Группа SCA-25A</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20261014-menu">
+    <link rel="stylesheet" href="style.css?v=20261014-instructions">
 </head>
 <body>
 
@@ -61,7 +61,7 @@
             <p class="section-intro">Угадайте слово по теме и подсказке. За правильные буквы получайте очки!</p>
             <div class="feature-card field-card">
                 <div class="field-meta"><span id="fieldCategory">Категория</span><span id="fieldRound">Раунд 0</span><span>Очки: <strong id="fieldScore">0</strong></span></div>
-                <p class="section-intro">Крутите барабан, получайте очки или специальные ходы и угадывайте слово по буквам!</p>
+                <p class="section-intro">Крутите барабан, получайте очки или специальные ходы и угадывайте слово по буквам!</p><div class="how-to-play"><h3>📘 Как играть</h3><ol><li>Нажмите «Начать игру», чтобы увидеть тему и подсказку.</li><li>Крутите барабан и посмотрите, сколько очков или какой ход выпал.</li><li>Выберите букву. Если она есть в слове, она откроется.</li><li>«Банкрот» забирает очки раунда, а «Переход» передаёт ход дальше.</li><li>Откройте слово или нажмите «Открыть ответ», затем выберите «Следующее слово».</li></ol></div>
                 <div class="drum-stage">
                     <div class="drum-pointer">▼</div>
                     <div id="fieldDrum" class="field-drum" aria-label="Барабан очков"><span class="drum-label label-0">10</span><span class="drum-label label-1">20</span><span class="drum-label label-2">БАНКРОТ</span><span class="drum-label label-3">50</span><span class="drum-label label-4">ПРИЗ</span><span class="drum-label label-5">15</span><span class="drum-label label-6">ПЕРЕХОД</span><span class="drum-label label-7">30</span><div class="drum-center">SCA<br><span>25A</span></div></div>
@@ -151,7 +151,7 @@
 
         <!-- IT-БИТВА -->
         <div id="itbattle" class="section">
-            <h2>💻 IT-битва на время</h2>
+            <h2>💻 IT-битва на время</h2><div class="how-to-play"><h3>📘 Как играть в IT-битву</h3><ol><li>Нажмите «Начать IT-битву» — появится вопрос и запустится таймер.</li><li>Выберите один из предложенных вариантов ответа.</li><li>Отвечайте до окончания времени.</li><li>Следите за количеством правильных ответов, которое отображается под вопросом.</li></ol><p class="how-to-tip">💡 Игра подходит для блиц-соревнования по основам информатики.</p></div>
             <div class="feature-card">
                 <div class="timer-display" id="itTimer">20</div>
                 <p id="itQuestion" class="quiz-question">Нажмите «Начать IT-битву».</p>
@@ -166,7 +166,7 @@
         <!-- JEOPARDY -->
         <div id="jeopardy" class="section">
             <h2>🏆 Jeopardy — интеллектуальная игра</h2>
-            <p class="section-intro">Выберите команду, категорию и стоимость вопроса. За правильный ответ команда получает указанные баллы.</p>
+            <p class="section-intro">Выберите команду, категорию и стоимость вопроса. За правильный ответ команда получает указанные баллы.</p><div class="how-to-play"><h3>📘 Как играть в Jeopardy</h3><ol><li>Выберите команду, которая отвечает.</li><li>На игровом поле нажмите категорию и стоимость вопроса: 100–400 баллов.</li><li>Прочитайте вопрос и дайте команде время обсудить ответ.</li><li>Нажмите «Показать ответ», чтобы проверить ответ команды.</li><li>Если ответ правильный, нажмите «Ответ верный». Если нет — «Пропустить / неверно».</li></ol><p class="how-to-tip">💡 Начинайте с вопросов на 100 баллов; 400 баллов — самые сложные.</p></div>
             <div class="feature-card">
                 <div class="game-toolbar"><label for="jeopardyTeam">Команда:</label><select id="jeopardyTeam" class="game-select"><option value="0">🔵 Команда 1</option><option value="1">🟣 Команда 2</option><option value="2">🟢 Команда 3</option><option value="3">🟠 Команда 4</option></select></div>
                 <div id="jeopardyBoard" class="jeopardy-board"></div>
@@ -178,7 +178,7 @@
         <!-- ESCAPE ROOM -->
         <div id="escape" class="section">
             <h2>🔐 Escape Room — код виртуального сейфа</h2>
-            <p class="section-intro">Решите четыре загадки по порядку. Каждая правильная разгадка открывает одну цифру кода. Финальный код сейфа: 2584.</p>
+            <p class="section-intro">Решите четыре загадки по порядку, соберите цифры и откройте виртуальный сейф.</p><div class="how-to-play"><h3>📘 Как пройти Escape Room</h3><ol><li>Выберите команду, которая проходит испытание.</li><li>Прочитайте загадку и обсудите ответ с командой.</li><li>Введите ответ и нажмите «Проверить». Правильный ответ откроет одну цифру.</li><li>Решите все четыре загадки и запомните цифры в правильном порядке.</li><li>Введите четырёхзначный код и нажмите «Открыть сейф». За успех команда получит 100 баллов.</li></ol><p class="how-to-tip">💡 Если ответ не принимается, проверьте написание и попробуйте снова.</p></div>
             <div class="feature-card escape-card">
                 <div class="safe-visual"><div class="safe-icon">🔒</div><div class="safe-display" id="safeDisplay">_ _ _ _</div><div class="safe-status" id="safeStatus">Сейф закрыт. Начните с первой загадки.</div></div>
                 <div class="game-toolbar"><label for="escapeTeam">Команда:</label><select id="escapeTeam" class="game-select"><option value="0">🔵 Команда 1</option><option value="1">🟣 Команда 2</option><option value="2">🟢 Команда 3</option><option value="3">🟠 Команда 4</option></select></div>
@@ -206,7 +206,7 @@
         <!-- МАТЕМАТИЧЕСКАЯ ДУЭЛЬ -->
         <div id="mathduel" class="section">
             <h2>➗ Математическая дуэль — перетяни канат!</h2>
-            <p class="section-intro">Два студента выходят к смарт-панели. Решайте один пример одновременно: правильный ответ приносит балл вашей команде и двигает канат в её сторону.</p>
+            <p class="section-intro">Два студента выходят к смарт-панели. Решайте один пример одновременно: правильный ответ приносит балл вашей команде и двигает канат в её сторону.</p><div class="how-to-play"><h3>📘 Как играть в математическую дуэль</h3><ol><li>Выберите уровень: «Для новичков» или «Сложный».</li><li>Назначьте команды слева и справа. Лучше выбрать разные команды.</li><li>Нажмите «Начать дуэль». Оба участника решают один пример.</li><li>Каждый вводит ответ в своё поле и нажимает «Ответить» (или Enter).</li><li>За каждый правильный ответ команда получает 1 балл, а канат сдвигается к ней.</li><li>Когда оба ответят, нажмите «Следующий пример». Итоговые баллы добавятся в общий рейтинг после завершения вопросов.</li></ol><p class="how-to-tip">💡 Не нажимайте «Начать заново», пока не закончите раунд: текущие результаты сбросятся.</p></div>
             <div class="feature-card mathduel-card">
                 <div class="mathduel-settings">
                     <div><label for="mathDifficulty">Уровень сложности</label><select id="mathDifficulty" class="game-select"><option value="beginner">🟢 Для новичков</option><option value="hard">🔴 Сложный</option></select></div>
