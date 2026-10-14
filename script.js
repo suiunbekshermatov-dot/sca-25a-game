@@ -647,7 +647,7 @@ function checkEscapeAnswer() {
         if (escapeStep >= escapeRiddles.length) {
             document.getElementById("escapeRiddle").textContent = "Все загадки решены! Введите четыре цифры в поле кода.";
             document.getElementById("escapeProgress").textContent = "Все 4 загадки решены";
-            document.getElementById("escapeStatus").textContent = "Код найден. Осталось открыть сейф.";
+            document.getElementById("safeStatus").textContent = "Код найден. Осталось открыть сейф.";
         } else {
             document.getElementById("escapeRiddle").textContent = escapeRiddles[escapeStep].q;
             document.getElementById("escapeProgress").textContent = "Загадка " + (escapeStep+1) + " из 4";
@@ -660,11 +660,11 @@ function openVirtualSafe() {
     if (escapeUnlocked) return;
     const code = document.getElementById("safeCode").value.trim();
     if (escapeStep < escapeRiddles.length) {
-        document.getElementById("escapeStatus").textContent = "Сначала решите все четыре загадки.";
+        document.getElementById("safeStatus").textContent = "Сначала решите все четыре загадки.";
         return;
     }
     if (code !== escapeRiddles.map(item => item.digit).join("")) {
-        document.getElementById("escapeStatus").textContent = "Код неверный. Проверьте открытые цифры.";
+        document.getElementById("safeStatus").textContent = "Код неверный. Проверьте открытые цифры.";
         return;
     }
     escapeUnlocked = true;
