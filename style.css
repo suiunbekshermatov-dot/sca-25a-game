@@ -500,3 +500,13 @@ main { width:min(1440px,100%); margin:0 auto; padding:clamp(1rem,3vw,2.5rem); }
 @media(max-width:1050px) { header { align-items:flex-start; flex-direction:column; gap:.8rem; } nav { width:100%; flex-wrap:nowrap; overflow-x:auto; padding:.2rem 0 .55rem; scrollbar-width:thin; } .nav-btn { flex-shrink:0; } }
 @media(max-width:700px) { main { padding:1rem; } .site-hero { grid-template-columns:1fr; gap:.5rem; padding:1.5rem; border-radius:22px; } .site-hero h1 { font-size:2.45rem; } .hero-art { min-height:210px; } .hero-orbit { width:190px; height:190px; } .orbit-two { width:150px; height:150px; } .hero-core { width:108px; height:108px; border-radius:28px; } .float-top { left:0; } .float-right { right:0; } .float-bottom { left:4%; } .hero-actions .btn { flex:1 1 100%; } .hero-tags { gap:.7rem; } .mathduel-settings { grid-template-columns:1fr; } .math-players { grid-template-columns:1fr; } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+
+
+/* Simple in-game instructions */
+.how-to-play { display:flex; gap:1rem; align-items:flex-start; margin:1rem 0 1.35rem; padding:1.15rem 1.3rem; border:1px solid rgba(103,232,249,.22); border-radius:16px; background:linear-gradient(115deg,rgba(30,64,115,.34),rgba(15,23,42,.55)); color:#e6edff; }
+.how-to-play:before { content:""; flex:0 0 4px; align-self:stretch; border-radius:5px; background:linear-gradient(#67e8f9,#818cf8); }
+.how-to-play h3 { margin:0 0 .65rem; color:#a5f3fc; font-size:1.05rem; }
+.how-to-play ol { margin:0; padding-left:1.35rem; }
+.how-to-play li { margin:.38rem 0; padding-left:.15rem; line-height:1.55; color:#d5def7; }
+.how-to-tip { margin:.75rem 0 0; padding:.65rem .8rem; border-radius:9px; background:rgba(250,204,21,.08); color:#fde68a; line-height:1.5; font-size:.9rem; }
+@media(max-width:600px) { .how-to-play { padding:.9rem; gap:.65rem; } .how-to-play h3 { font-size:1rem; } .how-to-play li { font-size:.9rem; } }
