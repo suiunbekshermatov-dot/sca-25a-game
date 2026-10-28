@@ -597,3 +597,45 @@ nav { display:flex; flex-wrap:wrap; gap:.35rem; }
   .site-hero h1 { font-size:1.8rem; }
   .hero-actions .btn { width:100%; }
 }
+
+
+/* Student-friendly: large touch targets, clear steps, readable text */
+html { scroll-behavior:smooth; }
+body { line-height:1.55; }
+header { gap:1rem; }
+.logo { font-size:1.12rem; }
+#gameNav { gap:.5rem; }
+#gameNav .nav-btn { min-height:44px; padding:.65rem .9rem; font-size:.84rem; border-radius:12px; }
+.site-hero { padding:1.4rem 1.6rem; margin-bottom:1rem; }
+.site-hero h1 { font-size:clamp(1.8rem,3.5vw,2.6rem); }
+.site-hero p { margin:.5rem 0 .8rem; }
+.section h2 { margin-bottom:.55rem; }
+.section-intro { margin:.25rem 0 1rem; }
+.section .btn,.section button { min-height:44px; }
+.wheel-container { gap:1rem; padding:1.25rem; }
+.winner-display { min-height:200px; }
+.winner-name { font-size:clamp(1.3rem,4vw,1.8rem); overflow-wrap:anywhere; }
+.quiz-card,.myth-card { padding:clamp(1rem,3vw,1.8rem); }
+.quiz-question,.myth-statement { font-size:clamp(1.05rem,2.5vw,1.3rem); line-height:1.6; }
+.option-btn { min-height:52px; font-size:1rem; line-height:1.45; border-radius:13px; }
+.myth-btns { flex-wrap:wrap; }
+.myth-btn { min-height:52px; flex:1 1 130px; }
+.team-card { padding:1.1rem; }
+.score-controls .btn { min-height:48px; }
+@media(max-width:700px) {
+  header { position:static; padding:.8rem; gap:.7rem; }
+  .logo { font-size:1rem; }
+  #gameNav { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); width:100%; gap:.4rem; }
+  #gameNav .nav-btn { width:100%; min-height:46px; padding:.55rem .35rem; white-space:normal; font-size:.78rem; }
+  #gameNav .all-games-toggle { grid-column:1 / -1; }
+  main { padding:.8rem; }
+  .site-hero { padding:1rem; border-radius:15px; }
+  .site-hero h1 { font-size:1.75rem; }
+  .hero-actions .btn { width:100%; }
+  .section h2 { font-size:1.35rem; line-height:1.35; }
+  .wheel-container { padding:.9rem; }
+  .winner-avatar { width:105px; height:105px; }
+  .winner-display { min-height:175px; }
+  .myth-btns { gap:.6rem; }
+  .myth-btn { padding:.85rem .7rem; font-size:1rem; }
+}
