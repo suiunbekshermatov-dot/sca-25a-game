@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кураторский час — Группа SCA-25A</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=20261028-simple">
+    <link rel="stylesheet" href="style.css?v=20261028-easy">
 </head>
 <body>
 
     <header>
         <div class="logo">
-            🎓 SCA-25A Кураторский час
+            🎓 Игры SCA-25A
         </div>
         <nav id="gameNav" aria-label="Меню игр SCA-25A">
             <button class="nav-btn active" onclick="switchTab('wheel')">🎰 Выбор студента</button>
@@ -34,10 +34,10 @@
     <main>
         <section class="site-hero" aria-label="Добро пожаловать">
             <div class="hero-copy">
-                <div class="hero-kicker"><span class="hero-live-dot"></span> DIGITAL CLASSROOM · SCA-25A</div>
-                <h1>Играй. Думай.<br><span>Побеждай вместе.</span></h1>
-                <p>Все игры группы SCA-25A в одном месте. Выберите игру в меню и начинайте.</p>
-                <div class="hero-actions"><button class="btn btn-accent" onclick="switchTab('mathduel')">➗ Начать математику</button><button class="btn hero-secondary" onclick="switchTab('ranking')">🏆 Смотреть рейтинг</button><button class="btn hero-show-btn" id="showModeBtn" onclick="toggleShowMode()">✨ Режим шоу</button></div>
+                
+                <h1>Игры группы <span>SCA-25A</span></h1>
+                <p>Выберите игру и нажмите кнопку. Всё просто!</p>
+                <div class="hero-actions"><button class="btn btn-accent" onclick="switchTab(\'wheel\')">▶ Начать игру</button></div>
                 
             </div>
         </section>
@@ -242,7 +242,7 @@
         </div>
     </main>
 
-    <script src="script.js?v=20261028-simple"></script>
+    <script src="script.js?v=20261028-easy"></script>
     <script>
       function toggleAllGames() {
         const nav = document.getElementById("gameNav");
