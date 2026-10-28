@@ -545,3 +545,19 @@ body.show-mode header,body.show-mode main { position:relative; z-index:1; }
 .show-burst { position:fixed; z-index:9999; top:24%; left:50%; transform:translateX(-50%); color:#fde68a; font-size:clamp(1.6rem,5vw,3rem); letter-spacing:.35em; pointer-events:none; text-shadow:0 0 20px rgba(250,204,21,.7); animation:burstRise 1.6s ease-out forwards; white-space:nowrap; }
 @keyframes burstRise { 0% { opacity:0; transform:translate(-50%,20px) scale(.7); } 20% { opacity:1; } 100% { opacity:0; transform:translate(-50%,-95px) scale(1.25); } }
 @media(prefers-reduced-motion:reduce) { body.show-mode .hero-core,body.show-mode:before,.show-burst { animation:none!important; } }
+
+
+/* Simplified layout: clearer navigation and less visual clutter */
+.site-hero { grid-template-columns:1fr; min-height:0; margin-bottom:1.2rem; padding:clamp(1.25rem,3vw,2rem); }
+.site-hero:before,.site-hero:after { display:none; }
+.site-hero h1 { font-size:clamp(1.8rem,3.8vw,3rem); }
+.site-hero p { margin:.7rem 0 1rem; }
+.hero-kicker { margin-bottom:.6rem; }
+.hero-actions { gap:.55rem; }
+.hero-actions .btn { min-height:44px; }
+nav { display:flex; flex-wrap:wrap; gap:.35rem; }
+.nav-btn { padding:.55rem .7rem; font-size:.78rem; }
+.arena-shortcuts,.arena-motto,.hero-art,.hero-tags { display:none!important; }
+.section h2 { margin-top:.4rem; }
+@media(max-width:1050px) { nav { flex-wrap:nowrap; overflow-x:auto; } }
+@media(max-width:700px) { .site-hero { padding:1.15rem; } .site-hero h1 { font-size:2rem; } .hero-actions .btn { flex:1 1 100%; } .nav-btn { padding:.6rem .75rem; } }
