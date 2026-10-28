@@ -579,3 +579,21 @@ nav { display:flex; flex-wrap:wrap; gap:.35rem; }
   #gameNav.show-all-games .nav-btn:nth-child(n+7):not(.all-games-toggle) { display:inline-flex; }
   #gameNav .all-games-toggle { grid-column:1 / -1; justify-content:center; }
 }
+
+
+/* Упрощённый вид для занятия */
+.site-hero { border-radius:18px; background:rgba(255,255,255,.045); box-shadow:none; border-color:rgba(255,255,255,.12); }
+.site-hero h1 { font-size:clamp(1.7rem,3vw,2.4rem); letter-spacing:-.025em; }
+.site-hero h1 span { color:#a5b4fc; }
+.site-hero p { margin:.6rem 0 1rem; font-size:1rem; }
+.hero-actions .btn { min-width:180px; }
+.section h2 { font-size:clamp(1.35rem,2.5vw,1.8rem); }
+.feature-card,.wheel-container,.quiz-card,.myth-card,.team-card { box-shadow:none; backdrop-filter:none; }
+.nav-btn { box-shadow:none!important; transform:none!important; }
+#gameNav .nav-btn:nth-child(n+7):not(.all-games-toggle) { display:none; }
+#gameNav.show-all-games .nav-btn:nth-child(n+7):not(.all-games-toggle) { display:inline-flex; }
+@media(max-width:700px) {
+  .site-hero { margin-bottom:.8rem; }
+  .site-hero h1 { font-size:1.8rem; }
+  .hero-actions .btn { width:100%; }
+}
