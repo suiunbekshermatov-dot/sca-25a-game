@@ -1,0 +1,1 @@
+document.getElementById('loginForm').addEventListener('submit',function(event){event.preventDefault();document.getElementById('loginMessage').textContent='Демонстрация: вход пока не выполняется. Сначала подключим Firebase Authentication и создадим реальные аккаунты кураторов.';});
