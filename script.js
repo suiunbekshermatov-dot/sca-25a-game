@@ -35,24 +35,78 @@ function switchTab(tabId) {
     if (activeButton) activeButton.classList.add('active');
 }
 
+// Сюрприз: случайно выбираем одну из игр, чтобы каждый раз было по-новому.
+function surpriseGame() {
+    const games = [
+        { id: "wheel", name: "🎰 Выбор студента" },
+        { id: "field", name: "🎡 Поле чудес" },
+        { id: "quiz", name: "❓ Быстрый квиз" },
+        { id: "myth", name: "⚖️ Правда или миф" },
+        { id: "challenge", name: "🎯 Колесо испытаний" },
+        { id: "mission", name: "🕵️ Секретная миссия" },
+        { id: "itbattle", name: "💻 IT-битва" },
+        { id: "jeopardy", name: "🧠 Jeopardy" },
+        { id: "escape", name: "🔐 Сейф" },
+        { id: "mathduel", name: "➗ Математическая дуэль" }
+    ];
+    const current = document.querySelector(".section.active")?.id;
+    let options = games.filter(game => game.id !== current);
+    const picked = options[Math.floor(Math.random() * options.length)];
+    switchTab(picked.id);
+    const heading = document.querySelector("#" + picked.id + " h2");
+    if (heading) {
+        heading.animate(
+            [{ transform: "scale(.96)", opacity: .6 }, { transform: "scale(1)", opacity: 1 }],
+            { duration: 450, easing: "ease-out" }
+        );
+    }
+}
+
 // Рандомайзер / Рулетка
 function spinWheel() {
     const display = document.getElementById('winnerDisplay');
+    const button = document.querySelector('#wheel .btn-accent');
+    if (button) button.disabled = true;
     let counter = 0;
-    const maxCount = 20;
-    
+    const maxCount = 26;
+    let selectedStudent = students[0];
+
     const interval = setInterval(() => {
-        const randomStudent = students[Math.floor(Math.random() * students.length)];
+        selectedStudent = students[Math.floor(Math.random() * students.length)];
         display.innerHTML = `
-            <img src="${randomStudent.photo}" class="winner-avatar" alt="" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300'">
-            <div class="winner-name">${randomStudent.name}</div>
+            <img src="${selectedStudent.photo}" class="winner-avatar" alt="">
+            <div class="winner-name">${selectedStudent.name}</div>
             <div class="winner-group">Группа SCA-25A</div>
         `;
         counter++;
         if (counter >= maxCount) {
             clearInterval(interval);
+            display.classList.remove("winner-pop");
+            void display.offsetWidth;
+            display.classList.add("winner-pop");
+            launchConfetti();
+            if (button) button.disabled = false;
         }
-    }, 80);
+    }, 85);
+}
+
+// Праздничный эффект победы без дополнительных библиотек.
+function launchConfetti() {
+    const colors = ["#f59e0b", "#818cf8", "#34d399", "#f472b6", "#38bdf8", "#ffffff"];
+    const layer = document.createElement("div");
+    layer.className = "confetti-layer";
+    layer.setAttribute("aria-hidden", "true");
+    for (let i = 0; i < 70; i++) {
+        const piece = document.createElement("span");
+        piece.className = "confetti-piece";
+        piece.style.left = Math.random() * 100 + "%";
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDelay = Math.random() * .45 + "s";
+        piece.style.setProperty("--drift", (Math.random() * 180 - 90) + "px");
+        layer.appendChild(piece);
+    }
+    document.body.appendChild(layer);
+    window.setTimeout(() => layer.remove(), 2600);
 }
 
 // Заполнение галереи
