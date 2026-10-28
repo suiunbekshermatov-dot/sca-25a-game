@@ -13,13 +13,14 @@
         <div class="logo">
             🎓 SCA-25A Кураторский час
         </div>
-        <nav aria-label="Меню игр SCA-25A">
+        <nav id="gameNav" aria-label="Меню игр SCA-25A">
             <button class="nav-btn active" onclick="switchTab('wheel')">🎰 Выбор студента</button>
             <button class="nav-btn" onclick="switchTab('field')">🎡 Поле чудес</button>
             <button class="nav-btn" onclick="switchTab('gallery')">👥 Студенты</button>
             <button class="nav-btn" onclick="switchTab('quiz')">❓ Квиз</button>
             <button class="nav-btn" onclick="switchTab('myth')">⚖️ Правда / миф</button>
             <button class="nav-btn" onclick="switchTab('teams')">🏆 Баллы команд</button>
+            <button class="nav-btn all-games-toggle" type="button" aria-expanded="false" onclick="toggleAllGames()">＋ Все игры</button>
             <button class="nav-btn" onclick="switchTab('challenge')">🎯 Испытания</button>
             <button class="nav-btn" onclick="switchTab('mission')">🕵️ Миссия</button>
             <button class="nav-btn" onclick="switchTab('itbattle')">💻 IT-битва</button>
@@ -242,5 +243,14 @@
     </main>
 
     <script src="script.js?v=20261028-simple"></script>
+    <script>
+      function toggleAllGames() {
+        const nav = document.getElementById("gameNav");
+        const button = nav.querySelector(".all-games-toggle");
+        const expanded = nav.classList.toggle("show-all-games");
+        button.setAttribute("aria-expanded", String(expanded));
+        button.textContent = expanded ? "− Скрыть игры" : "＋ Все игры";
+      }
+    </script>
 </body>
 </html>
