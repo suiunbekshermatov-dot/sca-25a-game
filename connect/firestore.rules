@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Безопасный старт: все обращения запрещены, пока не настроены
+    // проверка роли пользователя и принадлежности к группе.
+    // НЕ заменяйте это правилом allow read, write: if true.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
