@@ -1,11 +1,17 @@
 rules_version = '2';
 service cloud.firestore {
-  match /databases/{database}/documents {
-    // Безопасный старт: все обращения запрещены, пока не настроены
-    // проверка роли пользователя и принадлежности к группе.
-    // НЕ заменяйте это правилом allow read, write: if true.
-    match /{document=**} {
-      allow read, write: if false;
-    }
+ match /databases/{database}/documents {
+  function signedIn(){return request.auth != null;}
+  function profile(){return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;}
+  function staff(){return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && profile().active == true && profile().role in ['curator','admin'];}
+  function groupExists(id){return exists(/databases/$(database)/documents/groups/$(id)) && get(/databases/$(database)/documents/groups/$(id)).data.active == true;}
+  match /users/{uid} { allow read: if signedIn() && (request.auth.uid == uid || (staff() && profile().role == 'admin')); allow write: if false; }
+  match /groups/{groupId} { allow read: if staff(); allow write: if false; }
+  match /messages/{messageId} {
+   allow read: if staff();
+   allow create: if staff() && request.resource.data.senderUid == request.auth.uid && request.resource.data.senderGroup == profile().groupId && request.resource.data.senderGroupName is string && groupExists(request.resource.data.senderGroup) && groupExists(request.resource.data.recipientGroup) && request.resource.data.recipientGroup != request.resource.data.senderGroup && request.resource.data.recipientGroupName is string && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500 && request.resource.data.status == 'published' && request.resource.data.createdAt == request.time;
+   allow update, delete: if false;
   }
+  match /{document=**} {allow read, write: if false;}
+ }
 }
